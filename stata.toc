@@ -1,1 +1,8 @@
-
+* v indicates version—specify, which is the current version of.toc files
+v 1
+* d lines display description text
+* the first dline is the title, and the remaining ones are text
+* blank dlines display a blank line
+d sevaral stata commands programmed by Jan Hattenodrf
+d 
+d often for teaching purpouse 
