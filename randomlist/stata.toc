@@ -1,0 +1,3 @@
+v 1.01
+d {browse "http://www.github.com/epi-stats/randomlist":GitHub} website
+p github
