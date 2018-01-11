@@ -1,8 +1,5 @@
-* v indicates version—specify, which is the current version of.toc files
-v 1
-* d lines display description text
-* the first dline is the title, and the remaining ones are text
-* blank dlines display a blank line
-d sevaral stata commands programmed by Jan Hattenodrf
+v 2
+* d lines display description text the first dline is the title, and the remaining ones are text blank dlines display a blank line
+d Stata command to generate random allocation lists for clinical trials
 d 
-d often for teaching purpouse 
+d type -net install randomlist-
