@@ -10,10 +10,12 @@
 {title:Title}
 {phang}
 {bf:randomlist} {hline 2}  Generates random allocation list for clinical trials
+
 {marker syntax}{...}
 {title:Syntax}
+
 {p 8 17 2}
-{cmdab:randomlist} #N 
+{cmdab:randomlist} {it:#N} 
 [{cmd:,}
 {it:options}]
 
@@ -44,21 +46,26 @@ N represents the minimum number of particippants which should be allocated to ea
 {opt seed(#)} the seed to initiate the pseudo random number generator. 
 If 0 (the default) the current date  and time will be used to generate a number randomly. 
 The same seed will generate the same randomisation list.
+
 {phang}
-{opt arms(#)} the number of treatments (i.e. trial arms) (default is 2).
+{opt arms(#)} the number of treatments i.e. trial arms (default is 2).
+
 {phang}
 {opt blocksize(#)} the size of the blocks used for block randomisation. 
 If option {cmd:maxblocksize} is specified this value represents the minimum random block size.
 Must be 0 or a multiple of {cmd:arms}.
 The default is 0 meaning no block randomisation (usually not recommended).
+
 {phang}
 {opt maxblocksize(#)} the maximum block size for block randomisation with varying block sizes. 
 Must be 0 or a multiple of {cmd:blocksize}.
 The default is 0 meaning fixed block sizes of size {cmd:blocksize}.
+
 {phang}
 {opt strata(#)} the number of strata. 
 Can be simply interpreted as repeating the process multiple times. 
 Default is 1.
+
 {phang}
 {opt clear} specifies that it is okay to replace the data in memory.
 
@@ -85,6 +92,8 @@ See below for an example.
 {pstd}Generate allocation sequence with 3 arms with ratio (3:3:1) and block size of 7{p_end}
 {phang2}{cmd:. randomlist 40, seed(1103) arms(7) blocksize(7) clear}{p_end}
 {phang2}{cmd:. recode arm (1/3 = 1) (4/6 = 2) (7 = 3), generate(finalarm)}{p_end}
+{phang2}{cmd:. tab arm finalarm}{p_end}
 
 {title:Author}
 {pstd}Jan Hattendorf, SwissTPH{p_end}
+
