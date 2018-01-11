@@ -8,6 +8,7 @@
 {viewerjumpto "Examples" "randomlist##examples"}{...}
 
 {title:Title}
+
 {phang}
 {bf:randomlist} {hline 2}  Generates random allocation list for clinical trials
 
@@ -98,5 +99,6 @@ See below for an example.
 {phang2}{cmd:. tab arm finalarm}{p_end}
 
 {title:Author}
+
 {pstd}Jan Hattendorf, SwissTPH{p_end}
 
