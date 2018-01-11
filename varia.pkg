@@ -1,4 +1,4 @@
-d Package with only one command: randomlist
+d Currently the package has only 1 command: randomlist
 d Generates allocation lists for clinical trials
 f randomlist/randomlist.ado
 f randomlist/randomlist.sthlp
