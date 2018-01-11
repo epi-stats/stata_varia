@@ -34,6 +34,7 @@
 {p2colreset}{...}
 {marker description}{...}
 {title:Description}
+
 {pstd}
 {cmd:randomlist} generates a dataset with a random allocation list for clinical trials. 
 Supports permuted-block randomization with varying block size.
@@ -71,6 +72,7 @@ Default is 1.
 
 {marker remarks}{...}
 {title:Remarks}
+
 {pstd}
 The current random seed will be modified independent if option {cmd:seed} is specified or not.
 Usually, it is recommended to use block randomisation to ensure a balanced number of patients in 
@@ -83,6 +85,7 @@ See below for an example.
 
 {marker examples}{...}
 {title:Examples}
+
 {hline}
 {pstd}Delete data in memory{p_end}
 {phang2}{cmd:. clear}{p_end}
