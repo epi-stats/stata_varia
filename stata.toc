@@ -1,5 +1,6 @@
 v 2
 * d lines display description text the first dline is the title, and the remaining ones are text blank dlines display a blank line
-d Stata command to generate random allocation lists for clinical trials
+d Stata commands for random allocation
 d 
 d type -net install randomlist-
+d type -net install restrand-
