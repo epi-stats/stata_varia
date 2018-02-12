@@ -2,5 +2,5 @@ v 2
 * d lines display description text the first dline is the title, and the remaining ones are text blank dlines display a blank line
 d 2 Stata commands for random allocation (randomlist & restrand)
 d type -net install randomalloc-
-p randomalloc 
+p randomalloc.pkg 
 
