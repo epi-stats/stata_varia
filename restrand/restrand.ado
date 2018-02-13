@@ -196,10 +196,14 @@ void function checkpermute(string scalar varlist,
   aseq = mm_cond(aseq:== 0, ., aseq) 
   /* allocation sequence to var _arm */
   st_store(.,"_arm", aseq)
-  /* diagnostics */
-  printf("Randomly selected sequence:\n")
+  printf("Randomly selected sequence:")
   aseq = colshape(aseq, nobs)
-  aseq
+  cnames = J(nobs, 2, " ")
+  rnames = J(1, 2, " ")
+  _matrix_list(aseq, rnames, cnames)
+  
+  /* diagnostics */  
+  printf("\nDiagnostics:\n")
   for(i=1; i<=nobs; i++){
     mdiag[i,i] = .
   }
