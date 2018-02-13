@@ -200,15 +200,16 @@ void function checkpermute(string scalar varlist,
   printf("Randomly selected sequence:\n")
   aseq = colshape(aseq, nobs)
   aseq
-  mdiag =  mm_cond(mdiag:== 0, ., mdiag)
-  printf("Diagnostics:\n")
-  round(mdiag / nvalid * 100)
-  res =  round(mdiag / nvalid * 100, .1)
+  for(i=1; i<=nobs; i++){
+    mdiag[i,i] = .
+  }
+  smdiag = makesymmetric(mdiag)
+  /* mdiag =  mm_cond(mdiag:== 0, ., mdiag) */
+
+  round(smdiag / nvalid * 100)
+  res =  round(smdiag / nvalid * 100, .1)
   /* return scalar and diagnostic matrix to stata */
   st_numscalar("validseq", nvalid)
   st_matrix("diagnostic", res)
 }
 end
-
-
-
