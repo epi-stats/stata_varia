@@ -1,5 +1,5 @@
 
-*! version 1.02 SRH 13 Feb 2018
+*! version 1.03 SRH 13 Feb 2018
 program define restrand, rclass
   version 14
   syntax varlist(num) , Restriction(numlist) [Arms(int 2) SEed(int 0) n(int 0)]
