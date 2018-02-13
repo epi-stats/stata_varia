@@ -1,11 +1,11 @@
 {smcl}
 {* *! version 1.02  13Feb2018}{...}
 {vieweralsosee " [FN] Random-number functions" "help random number functions"}{...}
-{viewerjumpto "Syntax" "randomlist##syntax"}{...}
-{viewerjumpto "Description" "randomlist##description"}{...}
-{viewerjumpto "Options" "randomlist##options"}{...}
-{viewerjumpto "Remarks" "randomlist##remarks"}{...}
-{viewerjumpto "Examples" "randomlist##examples"}{...}
+{viewerjumpto "Syntax" "restrand##syntax"}{...}
+{viewerjumpto "Description" "restrand##description"}{...}
+{viewerjumpto "Options" "restrand##options"}{...}
+{viewerjumpto "Remarks" "restrand##remarks"}{...}
+{viewerjumpto "Examples" "restrand##examples"}{...}
 
 {title:Title}
 {phang}
