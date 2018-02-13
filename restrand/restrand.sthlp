@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 1.01  10Jan2018}{...}
+{* *! version 1.02  13Feb2018}{...}
 {vieweralsosee " [FN] Random-number functions" "help random number functions"}{...}
 {viewerjumpto "Syntax" "randomlist##syntax"}{...}
 {viewerjumpto "Description" "randomlist##description"}{...}
@@ -26,6 +26,7 @@
 {synopt:{opt r:estrictions(numlist)}} the restrictions used for the randomization{p_end}
 {synopt:{opt a:rms(#)}} number of treatments {p_end}
 {synopt:{opt se:ed(#)}} set seed for pseudo random number generation{p_end}
+{synopt:{opt n(#)}} number of units to randomize to each arm{p_end}
 {synoptline}
 
 {p2colreset}{...}
@@ -52,6 +53,10 @@ Performs restricted randomization. From all potential allocation sequences only 
 If 0 (the default) the current date  and time will be used to generate a number randomly. 
 The same seed will generate the same randomisation list.
 
+{phang}
+{opt n(#)} the number of units to be randomized to each arm. 
+If 0 (the default) as many units as possible will be randomized, which is trunc(_N/arms) per treatment group.
+
 
 {marker remarks}{...}
 {title:Remarks}
@@ -67,8 +72,11 @@ Missing values are not allowed in any of the variables specified in varlist.
 The diagnostic matrix indicates how often (percent) a paitr of units are allocated to the same treatment group.
 There is no general rule but if units appearing together less than half as often as one would expect by chance or more than 75%, the validity of the randomisation might be compromised. 
 In this case the procedure should be repeated with more relaxed constraints. 
-
-
+The command (or more precisely the underlying Mata function) will try to generate a symmetric 
+permutation pattern in a way that only half of all combinations needs to be assessed, 
+e.g. the allocation sequence (1, 1, 1, 2, 2, 2) is symmetric to (2, 2, 2, 1, 1, 1) but in this case the 
+trial arms will be in a final step randomly shuffled.
+If the number of possible permuations exceeds 10 million, only 3 million random allocation seuqnences will be assessed.   
 
 
 {marker examples}{...}
@@ -78,6 +86,7 @@ In this case the procedure should be repeated with more relaxed constraints.
 {phang2}{cmd:. sysuse bpwide, replace}{p_end}
 {phang2}{cmd:. keep if mod(_n, 6) == 0}{p_end}
 {phang2}{cmd:. restrand sex agegrp bp_before, rest(0.1 0.1 5) arms(2) seed(1103)}{p_end}
+{phang2}{cmd:. mean restrand sex agegrp bp_before, obver(_arm)}{p_end}
 {hline}
 {pstd}Example were clusters are not independent from each other{p_end}
 {phang2}{cmd:. sysuse bpwide, replace}{p_end}
@@ -96,8 +105,12 @@ In this case the procedure should be repeated with more relaxed constraints.
 {title:Stored results}
 
 {pstd}
-{cmd:restrand} stores the following in {cmd:e()}:
+{cmd:restrand} stores the following in {cmd:r()}:
 
+{synoptset 20 tabbed}{...}
+{p2col 5 20 24 2: Scalars}{p_end}
+{synopt:{cmd:r(Nvalidseq)}} The number of allocation sequences which satisfied the constrains{p_end}
+{synopt:{cmd:r(seed)}} The seed used to initiate the pseudo-randonm number generator{p_end}
 {synoptset 20 tabbed}{...}
 {p2col 5 20 24 2: Matrices}{p_end}
 {synopt:{cmd:r(diag)}}Matrix indicating percentages how often pairs were allocated to the same treatment group{p_end}
