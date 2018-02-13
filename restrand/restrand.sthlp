@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 1.02  13Feb2018}{...}
+{* *! version 1.03  13Feb2018}{...}
 {vieweralsosee " [FN] Random-number functions" "help random number functions"}{...}
 {viewerjumpto "Syntax" "restrand##syntax"}{...}
 {viewerjumpto "Description" "restrand##description"}{...}
@@ -86,7 +86,7 @@ If the number of possible permuations exceeds 10 million, only 3 million random 
 {phang2}{cmd:. sysuse bpwide, replace}{p_end}
 {phang2}{cmd:. keep if mod(_n, 6) == 0}{p_end}
 {phang2}{cmd:. restrand sex agegrp bp_before, rest(0.1 0.1 5) arms(2) seed(1103)}{p_end}
-{phang2}{cmd:. mean restrand sex agegrp bp_before, obver(_arm)}{p_end}
+{phang2}{cmd:. mean sex agegrp bp_before, over(_arm)}{p_end}
 {hline}
 {pstd}Example were clusters are not independent from each other{p_end}
 {phang2}{cmd:. sysuse bpwide, replace}{p_end}
