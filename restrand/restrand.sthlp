@@ -16,7 +16,7 @@
 
 {p 8 17 2}
 {cmdab:restrand} {varlist} 
-{cmd:,} {it:c:onstraints(numlist)}
+{cmd:,} {it:constraints(numlist)}
 [{it:options}]
 
 {synoptset 20 tabbed}{...}
