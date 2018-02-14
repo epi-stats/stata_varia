@@ -1,15 +1,14 @@
-
-*! version 1.03 SRH 13 Feb 2018
+*! version 1.04 SRH 14 Feb 2018
 program define restrand, rclass
   version 14
-  syntax varlist(num) , Restriction(numlist) [Arms(int 2) SEed(int 0) n(int 0)]
+  syntax varlist(num) , Constraints(numlist) [Arms(int 2) SEed(int 0) n(int 0)]
   foreach v of varlist `varlist' {
      if missing(`v') error 416
   }
   local nvars: word count `varlist'
-  local nres: word count `restriction'
+  local nres: word count `constraints'
   if (`nvars' != `nres'){
-     di as error "Number of variables != number of restrictions"
+     di as error "Number of variables != number of constraints"
 	         exit 459
   }
   if (`seed' == 0){
@@ -25,18 +24,17 @@ program define restrand, rclass
   di "Seed set to: `seed'"  
   set seed `seed'
   qui: gen _arm = .
-  mata: checkpermute("`varlist'", "`restriction'", `arms', `n')
+  mata: checkpermute("`varlist'", "`constraints'", `arms', `n')
   return scalar seed = `seed' 
   return scalar Nvalidseq = validseq 
   return matrix diag diagnostic 
   
 end
 
- 
 version 14
 mata:
 void function checkpermute(string scalar varlist, 
-                           string matrix restrict,
+                           string matrix constraints,
 						   real scalar arms,
 						   real scalar n)
 {
@@ -45,7 +43,7 @@ void function checkpermute(string scalar varlist,
   real scalar i, j, k, m, count, nobs, nperarm, remain, nperm, nvalid
   
   /* same basic calculations obs per arm, etc */
-  rest = strtoreal(tokens(restrict))
+  rest = strtoreal(tokens(constraints))
   rd = st_data(., varlist)
   nobs = rows(rd)
   if(n == 0){
@@ -139,7 +137,7 @@ void function checkpermute(string scalar varlist,
 	  }  
     }
    }
-   printf("\nNumber of allocation sequences satisfying restrictions: %f\n", nvalid)
+   printf("\nNumber of allocation sequences satisfying constraints: %f\n", nvalid)
   } else
   {
     info = cvpermutesetup(allo)
@@ -217,3 +215,4 @@ void function checkpermute(string scalar varlist,
   st_matrix("diagnostic", res)
 }
 end
+
