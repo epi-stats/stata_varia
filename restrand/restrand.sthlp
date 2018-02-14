@@ -42,7 +42,7 @@ From all potential allocation sequences only those are selected, which satisfy s
 {dlgtab:Main}
 
 {phang}
-{opt constraints(#)} the constraints used for the randomization, 
+{opt constraints(numlist)} the constraints used for the randomization, 
 i.e. the maximum allowed mean difference between the tretment arms. The number of values must equal the number of variables specified.
 
 {phang}
