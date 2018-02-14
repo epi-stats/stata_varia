@@ -9,21 +9,21 @@
 
 {title:Title}
 {phang}
-{bf:restrand} {hline 2}  Preforms restricted randomization
+{bf:restrand} {hline 2}  Covariate-based constrained randomization
 
 {marker syntax}{...}
 {title:Syntax}
 
 {p 8 17 2}
 {cmdab:restrand} {varlist} 
-{cmd:,} {it:restrictions(numlist)}
+{cmd:,} {it:restriction(numlist)}
 [{it:options}]
 
 {synoptset 20 tabbed}{...}
 {synopthdr}
 {synoptline}
 {syntab:Main}
-{synopt:{opt r:estrictions(numlist)}} the restrictions used for the randomization{p_end}
+{synopt:{opt c:estriction(numlist)}} the restrictions used for the randomization{p_end}
 {synopt:{opt a:rms(#)}} number of treatments {p_end}
 {synopt:{opt se:ed(#)}} set seed for pseudo random number generation{p_end}
 {synopt:{opt n(#)}} number of units to randomize to each arm{p_end}
