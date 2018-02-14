@@ -16,14 +16,14 @@
 
 {p 8 17 2}
 {cmdab:restrand} {varlist} 
-{cmd:,} {it:restriction(numlist)}
+{cmd:,} {it:c:onstraints(numlist)}
 [{it:options}]
 
 {synoptset 20 tabbed}{...}
 {synopthdr}
 {synoptline}
 {syntab:Main}
-{synopt:{opt c:estriction(numlist)}} the restrictions used for the randomization{p_end}
+{synopt:{opt c:onstraints(numlist)}} the restrictions used for the randomization{p_end}
 {synopt:{opt a:rms(#)}} number of treatments {p_end}
 {synopt:{opt se:ed(#)}} set seed for pseudo random number generation{p_end}
 {synopt:{opt n(#)}} number of units to randomize to each arm{p_end}
@@ -34,16 +34,16 @@
 {title:Description}
 
 {pstd}
-{cmd:randomlist} generates a dataset with a random allocation list for clinical trials. 
-Performs restricted randomization. From all potential allocation sequences only those are selected, whoich satisfy some pre specified conditions.
+{cmd:restrand} Performs restricted randomization which is used if the number of units is small (often in cluster randomized trials). 
+From all potential allocation sequences only those are selected, which satisfy some pre specified conditions.
 
 {marker options}{...}
 {title:Options}
 {dlgtab:Main}
 
 {phang}
-{opt restriction(#)} the restrictions used for the randomization, i.e. the mean difference between the arms of the corresponding variable should be lower than the specified restriction. the number of values must equal the number of variables specified.
-
+{opt constraints(#)} the constraints used for the randomization, 
+i.e. the maximum allowed mean difference between the tretment arms. The number of values must equal the number of variables specified.
 
 {phang}
 {opt arms(#)} the number of treatments i.e. trial arms (default is 2).
@@ -65,17 +65,17 @@ If 0 (the default) as many units as possible will be randomized, which is trunc(
 This procedure performs a pseudo-random selection from a list of acceptable allocations in a way that ensures balance on relevant covariates. 
 The current random seed will be modified independent if option {cmd:seed} is specified or not.
 A new variable _arm will be generated. The command will stop with an error if a varibale with this name already exists.
-Stratification can be implemented if the restriction for a categorical variable is set to 0 and the values of the categories are suitable.
-However, because of the high number of invalid sequences this approch might be inefficient (although the function is implemented in the faster Mata language).
-It is usually better to generate allocation sequences for each stratum seperately, because also the restrictions have to be fulfilled within each stratum. 
+Stratification can be implemented if the restriction for a categorical variable is set to 0 (note: the values of the categories must be suitable).
+However, this approch might be inefficient (although the function is implemented in the faster Mata language) because many allocation sequences are per definition invalid.
+Usually, it is better to perform the command seperately for each stratum. In this case the constraints are fulfilled within each stratum. 
 Missing values are not allowed in any of the variables specified in varlist.
-The diagnostic matrix indicates how often (percent) a paitr of units are allocated to the same treatment group.
-There is no general rule but if units appearing together less than half as often as one would expect by chance or more than 75%, the validity of the randomisation might be compromised. 
-In this case the procedure should be repeated with more relaxed constraints. 
+The diagnostic matrix indicates how frequently (percent) a pair of units are allocated to the same treatment group.
+If a pairs of clusters appears always, often, rarely or never in the same arm,
+the procedure should be repeated with more relaxed constraints.  
+There is no general rule but rarely is sometimes defined as half as often as one would expect by chance and often as above 75%. 
 The command (or more precisely the underlying Mata function) will try to generate a symmetric 
 permutation pattern in a way that only half of all combinations needs to be assessed, 
-e.g. the allocation sequence (1, 1, 1, 2, 2, 2) is symmetric to (2, 2, 2, 1, 1, 1) but in this case the 
-trial arms will be in a final step randomly shuffled.
+e.g. the allocation sequence (1, 1, 1, 2, 2, 2) is symmetric to (2, 2, 2, 1, 1, 1). In this case the trial arms will be in a final step randomly shuffled.
 If the number of possible permuations exceeds 10 million, only 3 million random allocation seuqnences will be assessed.   
 
 
