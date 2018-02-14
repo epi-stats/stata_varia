@@ -85,20 +85,20 @@ If the number of possible permuations exceeds 10 million, only 3 million random 
 {pstd}Restricted randomisation with 3 variables{p_end}
 {phang2}{cmd:. sysuse bpwide, replace}{p_end}
 {phang2}{cmd:. keep if mod(_n, 6) == 0}{p_end}
-{phang2}{cmd:. restrand sex agegrp bp_before, rest(0.1 0.1 5) arms(2) seed(1103)}{p_end}
+{phang2}{cmd:. restrand sex agegrp bp_before, constr(0.1 0.1 5) arms(2) seed(1103)}{p_end}
 {phang2}{cmd:. mean sex agegrp bp_before, over(_arm)}{p_end}
 {hline}
 {pstd}Example were clusters are not independent from each other{p_end}
 {phang2}{cmd:. sysuse bpwide, replace}{p_end}
 {phang2}{cmd:. sort bp_before}{p_end}
 {phang2}{cmd:. keep if _n < 4 | _n > 112}{p_end}
-{phang2}{cmd:. restrand bp_before, rest(2) arms(2) seed(1103)}{p_end}
+{phang2}{cmd:. restrand bp_before, constr(2) arms(2) seed(1103)}{p_end}
 {hline}
 {pstd}Example with agegroup as strata (sizes 2, 10, 2).{p_end}
 {phang2}{cmd:. sysuse bpwide, replace}{p_end}
 {phang2}{cmd:. keep in 17/44  if mod(_n, 2) == 0}{p_end}
-{phang2}{cmd:. replace agegrp = agegr^2}{p_end}
-{phang2}{cmd:. restrand agegrp bp_before, rest(0 10) arms(2) seed(1103)}{p_end}
+{phang2}{cmd:. replace agegrp = agegr^2  /* because mean(1+3) == 2 could cause problems*/}{p_end}
+{phang2}{cmd:. restrand agegrp bp_before, constr(0 10) arms(2) seed(1103)}{p_end}
 
 
 {marker results}{...}
