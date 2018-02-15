@@ -105,11 +105,11 @@ If the number of possible permuations exceeds 10 million, only 3 million random 
 {phang2}{cmd: sysuse bpwide, replace}{p_end}
 {phang2}{cmd: keep in 17/44  if mod(_n, 2) == 0}{p_end}
 {phang2}{cmd: forvalues i = 1/3 {c -(} }{p_end}
-{phang2}{cmd:   preserve}{p_end}
-{phang2}{cmd:   keep if agegrp == `i'}{p_end}
-{phang2}{cmd:   restrand bp_before, constr(14) arms(2)}{p_end}
-{phang2}{cmd:   mkmat _arm, mat("arm`i'")}{p_end}
-{phang2}{cmd:   restore}{p_end}
+{phang2}{cmd: {tab}  preserve}{p_end}
+{phang2}{cmd: {tab}  keep if agegrp == `i'}{p_end}
+{phang2}{cmd: {tab}  restrand bp_before, constr(14) arms(2)}{p_end}
+{phang2}{cmd: {tab}  mkmat _arm, mat("arm`i'")}{p_end}
+{phang2}{cmd: {tab}  restore}{p_end}
 {phang2}{cmd: {c )-} }{p_end}
 {phang2}{cmd: matrix _arm = arm1 \ arm2 \ arm3}{p_end}
 {phang2}{cmd: svmat _arm}{p_end}
