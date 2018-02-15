@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 1.06  15Feb2018}{...}
+{* *! version 1.07  15Feb2018}{...}
 {vieweralsosee " [FN] Random-number functions" "help random number functions"}{...}
 {viewerjumpto "Syntax" "restrand##syntax"}{...}
 {viewerjumpto "Description" "restrand##description"}{...}
@@ -105,11 +105,11 @@ If the number of possible permuations exceeds 10 million, only 3 million random 
 {phang2}{cmd: sysuse bpwide, replace}{p_end}
 {phang2}{cmd: keep in 17/44  if mod(_n, 2) == 0}{p_end}
 {phang2}{cmd: forvalues i = 1/3 {c -(} }{p_end}
-{phang2}{cmd: {tab}  preserve}{p_end}
-{phang2}{cmd: {tab}  keep if agegrp == `i'}{p_end}
-{phang2}{cmd: {tab}  restrand bp_before, constr(14) arms(2)}{p_end}
-{phang2}{cmd: {tab}  mkmat _arm, mat("arm`i'")}{p_end}
-{phang2}{cmd: {tab}  restore}{p_end}
+{phang2}{cmd: {tab}{tab}    preserve}{p_end}
+{phang2}{cmd: {tab}{tab}    keep if agegrp == `i'}{p_end}
+{phang2}{cmd: {tab}{tab}    restrand bp_before, constr(14) arms(2)}{p_end}
+{phang2}{cmd: {tab}{tab}    mkmat _arm, mat("arm`i'")}{p_end}
+{phang2}{cmd: {tab}{tab}    restore}{p_end}
 {phang2}{cmd: {c )-} }{p_end}
 {phang2}{cmd: matrix _arm = arm1 \ arm2 \ arm3}{p_end}
 {phang2}{cmd: svmat _arm}{p_end}
@@ -128,8 +128,9 @@ If the number of possible permuations exceeds 10 million, only 3 million random 
 {synopt:{cmd:r(seed)}} The seed used to initiate the pseudo-randonm number generator{p_end}
 {synoptset 20 tabbed}{...}
 {p2col 5 20 24 2: Matrices}{p_end}
-{synopt:{cmd:r(diag)}} Matrix indicating percentages how often pairs were allocated to the same treatment group{p_end}
 {synopt:{cmd:r(alloc)}} The selected allocation sequence{p_end}
+{synopt:{cmd:r(diag)}} Matrix indicating percentages how often pairs were allocated to the same treatment group{p_end}
+
 
 {p2colreset}{...}
 
