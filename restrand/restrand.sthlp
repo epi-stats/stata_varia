@@ -106,12 +106,12 @@ If the number of possible permuations exceeds 10 million, only 3 million random 
 {phang2}{cmd: keep in 17/44  if mod(_n, 2) == 0}{p_end}
 {phang2}{cmd: local seed = 1234}{p_end}
 {phang2}{cmd: forvalues i = 1/3 {c -(} }{p_end}
-{phang2}{cmd: {tab}{tab}    preserve}{p_end}
-{phang2}{cmd: {tab}{tab}    keep if agegrp == `i'}{p_end}
-{phang2}{cmd: {tab}{tab}    restrand bp_before, constr(14) arms(2) seed(`i')}{p_end}
-{phang2}{cmd: {tab}{tab}    mkmat _arm, mat("arm`i'")}{p_end}
-{phang2}{cmd: {tab}{tab}    restore}{p_end}
-{phang2}{cmd: local seed = `seed' + 1234}{p_end}
+{phang3}{cmd: preserve}{p_end}
+{phang3}{cmd: keep if agegrp == `i'}{p_end}
+{phang3}{cmd: restrand bp_before, constr(14) arms(2) seed(`i')}{p_end}
+{phang3}{cmd: mkmat _arm, mat("arm`i'")}{p_end}
+{phang3}{cmd: restore}{p_end}
+{phang3}{cmd: local seed = `seed' + 1234}{p_end}
 {phang2}{cmd: {c )-} }{p_end}
 {phang2}{cmd: matrix _arm = arm1 \ arm2 \ arm3}{p_end}
 {phang2}{cmd: svmat _arm}{p_end}
