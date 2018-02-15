@@ -139,10 +139,10 @@ If the number of possible permuations exceeds 10 million, only 3 million random 
 {marker reference}{...}
 {title:Reference}
 {phang}
-Moulton LH. Covariate-based constrained randomization of grouprandomized
+Moulton LH. Covariate-based constrained randomization of group-randomized
 trials. Clin Trials 2004{p_end}
 
 
 {title:Author}
 {phang}
-{pstd}Jan Hattendorf, SwissTPH{p_end}
+{pstd}Jan Hattendorf, SwissTPH
