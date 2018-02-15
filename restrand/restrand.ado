@@ -1,4 +1,4 @@
-*! version 1.04 SRH 14 Feb 2018
+*! version 1.05 SRH 15 Feb 2018
 program define restrand, rclass
   version 14
   syntax varlist(num) , Constraints(numlist) [Arms(int 2) SEed(int 0) n(int 0)]
@@ -28,7 +28,7 @@ program define restrand, rclass
   return scalar seed = `seed' 
   return scalar Nvalidseq = validseq 
   return matrix diag diagnostic 
-  
+  return matrix alloc allocation     
 end
 
 version 14
@@ -213,6 +213,7 @@ void function checkpermute(string scalar varlist,
   /* return scalar and diagnostic matrix to stata */
   st_numscalar("validseq", nvalid)
   st_matrix("diagnostic", res)
+  st_matrix("allocation", aseq')
 }
 end
 
