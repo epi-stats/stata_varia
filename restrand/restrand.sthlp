@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 1.04  14Feb2018}{...}
+{* *! version 1.05  15Feb2018}{...}
 {vieweralsosee " [FN] Random-number functions" "help random number functions"}{...}
 {viewerjumpto "Syntax" "restrand##syntax"}{...}
 {viewerjumpto "Description" "restrand##description"}{...}
@@ -94,11 +94,26 @@ If the number of possible permuations exceeds 10 million, only 3 million random 
 {phang2}{cmd:. keep if _n < 4 | _n > 112}{p_end}
 {phang2}{cmd:. restrand bp_before, constr(2) arms(2) seed(1103)}{p_end}
 {hline}
-{pstd}Example with agegroup as strata (sizes 2, 10, 2).{p_end}
+{pstd}Example with agegroup as strata (sizes 2, 10, 2). Note: strata values needs to be modified because mean(1+3) == 2 cause problems{p_end}
 {phang2}{cmd:. sysuse bpwide, replace}{p_end}
 {phang2}{cmd:. keep in 17/44  if mod(_n, 2) == 0}{p_end}
-{phang2}{cmd:. replace agegrp = agegr^2  /* because mean(1+3) == 2 could cause problems*/}{p_end}
+{phang2}{cmd:. replace agegrp = agegr^2}{p_end}
 {phang2}{cmd:. restrand agegrp bp_before, constr(0 10) arms(2) seed(1103)}{p_end}
+{hline}
+{pstd}Example with agegroup as strata (sizes 2, 10, 2) but this time constraints hav to be fullfilled in each stratum (much faster).{p_end}
+{phang2}{cmd:. sysuse bpwide, replace}{p_end}
+{phang2}{cmd:. keep in 17/44  if mod(_n, 2) == 0}{p_end}
+{phang2}{cmd:. forvalues i = 1/3 }{p_end}
+{phang2}{cmd:. {c -(} }{p_end}
+{phang2}{cmd:.   preserve}{p_end}
+{phang2}{cmd:.   keep if agegrp == `i'}{p_end}
+{phang2}{cmd:.   restrand bp_before, constr(14) arms(2)}{p_end}
+{phang2}{cmd:.   mkmat _arm, mat("arm`i'")}{p_end}
+{phang2}{cmd:.   restore}{p_end}
+{phang2}{cmd:. {c )-} }{p_end}
+{phang2}{cmd:. matrix _arm = arm1 \ arm2 \ arm3}{p_end}
+{phang2}{cmd:. svmat _arm}{p_end}
+
 
 
 {marker results}{...}
