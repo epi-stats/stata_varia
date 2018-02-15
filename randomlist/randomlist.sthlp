@@ -90,7 +90,7 @@ See below for an example.
 {hline}
 {pstd}Delete data in memory{p_end}
 {phang2}{cmd:. clear}{p_end}
-{pstd}Generate allocation list with at least 40 patients in each of the 3 treatments (1:1:1) with varying block dizes of 3, 6 and 9{p_end}
+{pstd}Generate allocation list with at least 40 patients in each of the 3 treatments (1:1:1) with varying block sizes of 3, 6 and 9{p_end}
 {phang2}{cmd:. randomlist 40, seed(1103) arms(3) blocksize(3) maxblocksize(9)}{p_end}
 {hline}
 {pstd}Generate allocation sequence with 3 arms with ratio (3:3:1) and block size of 7{p_end}
