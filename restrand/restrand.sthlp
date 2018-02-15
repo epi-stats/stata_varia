@@ -100,7 +100,8 @@ If the number of possible permuations exceeds 10 million, only 3 million random 
 {phang2}{cmd:. replace agegrp = agegr^2}{p_end}
 {phang2}{cmd:. restrand agegrp bp_before, constr(0 10) arms(2) seed(1103)}{p_end}
 {hline}
-{pstd}Example with agegroup as strata (sizes 2, 10, 2) but this time constraints hav to be fullfilled in each stratum (much faster).{p_end}
+{pstd}Example with agegroup as strata (sizes 2, 10, 2) but this time constraints have to be fullfilled in each stratum 
+(much faster algorithm because permutations are done separately within each stratum).{p_end}
 {phang2}{cmd:. sysuse bpwide, replace}{p_end}
 {phang2}{cmd:. keep in 17/44  if mod(_n, 2) == 0}{p_end}
 {phang2}{cmd:. forvalues i = 1/3 }{p_end}
