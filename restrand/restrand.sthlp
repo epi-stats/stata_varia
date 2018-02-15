@@ -128,7 +128,8 @@ If the number of possible permuations exceeds 10 million, only 3 million random 
 {synopt:{cmd:r(seed)}} The seed used to initiate the pseudo-randonm number generator{p_end}
 {synoptset 20 tabbed}{...}
 {p2col 5 20 24 2: Matrices}{p_end}
-{synopt:{cmd:r(diag)}}Matrix indicating percentages how often pairs were allocated to the same treatment group{p_end}
+{synopt:{cmd:r(diag)}} Matrix indicating percentages how often pairs were allocated to the same treatment group{p_end}
+{synopt:{cmd:r(alloc)}} The selected allocation sequence{p_end}
 
 {p2colreset}{...}
 
