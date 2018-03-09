@@ -88,7 +88,7 @@ exp(sum(log(X + 1))) - 1
 {title:Stored results}
 
 {pstd}
-{cmd:restrand} stores the following in {cmd:r()}:
+{cmd:eggrr} stores the following in {cmd:r()}:
 
 {synoptset 20 tabbed}{...}
 {p2col 5 20 24 2: Scalars}{p_end}
