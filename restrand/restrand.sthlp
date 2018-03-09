@@ -23,7 +23,7 @@
 {synopthdr}
 {synoptline}
 {syntab:Main}
-{synopt:{opt c:onstraints(numlist)}} randomization co-variate constraints{p_end}
+{synopt:{opt c:onstraints(numlist)}} co-variate constraints{p_end}
 {synopt:{opt a:rms(#)}} number of treatments {p_end}
 {synopt:{opt se:ed(#)}} set seed for pseudo random number generation{p_end}
 {synopt:{opt n(#)}} number of units to randomize to each arm{p_end}
