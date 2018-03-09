@@ -93,8 +93,8 @@ exp(sum(log(X + 1))) - 1
 {synoptset 20 tabbed}{...}
 {p2col 5 20 24 2: Scalars}{p_end}
 {synopt:{cmd:r(N)}} Number of observation used{p_end}
-{synopt:{cmd:r(err_gm)} geometric mean ERR{p_end}
-{synopt:{cmd:r(err_am)} arithmetric mean ERR{p_end}
+{synopt:{cmd:r(err_gm)}} geometric mean ERR{p_end}
+{synopt:{cmd:r(err_am)}} arithmetric mean ERR{p_end}
 {synoptset 20 tabbed}{...}
 {p2col 5 20 24 2: Matrices}{p_end}
 {synopt:{cmd:r(quant)}} 2.5, 50, and 97.5% quantiles (only if noboot is not specified){p_end}
