@@ -58,6 +58,5 @@ void function bootegg(string scalar varlist, string scalar touse, real scalar lo
   }
   q = mm_quantile(bootmat, 1, (0.025 \ 0.5 \ 0.975))
   st_matrix("quantiles", q)
-  st_numscalar("Nobs", N)
 }
 end 
