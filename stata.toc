@@ -3,4 +3,6 @@ v 2
 d 2 Stata commands for random allocation (randomlist & restrand)
 d type -net install randomalloc-
 p randomalloc.pkg 
-
+d Stata commands for egg redusction rates
+d type -net install err-
+p err.pkg 
