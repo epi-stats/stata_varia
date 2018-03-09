@@ -1,8 +1,7 @@
 v 2
 * d lines display description text the first dline is the title, and the remaining ones are text blank dlines display a blank line
-d 2 Stata commands for random allocation (randomlist & restrand)
+d randomalloc has 2 Stata commands for random allocation (randomlist & restrand) err commands to calculate egg reduction rates.
 d type -net install randomalloc-
-p randomalloc.pkg 
-d Stata commands for egg redusction rates
 d type -net install err-
+p randomalloc.pkg 
 p err.pkg 
