@@ -1,5 +1,4 @@
 d Currently the package has only 1 commands: eggrr
 d eggrr calculates egg resduction rates based on geometric or artmrthric mean and provides bootstrap confidence intervals
-d restrand applies covariate constrained randomisation which is often used in cluster randomized trials
 f eggrr/eggrr.ado
 f eggrr/eggrr.sthlp
