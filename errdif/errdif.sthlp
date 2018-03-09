@@ -67,7 +67,7 @@ Confidence intervals should be constructed with bootstrap algorithms (see exampl
 {pstd}Example with temperature data{p_end}
 {phang2}{cmd: sysuse citytemp, replace}{p_end}
 {phang2}{cmd: errdif heatdd cooldd, arm(region) treat(1) comp(4)}{p_end}
-{phang2}{cmd: bootstrap Gerr=r(dif_gm), rep(1000): errdif heatdd cooldd, arm(region) treat(1) comp(4}{p_end}
+{phang2}{cmd: bootstrap Gerr=r(dif_gm), rep(1000): errdif heatdd cooldd, arm(region) treat(1) comp(4) }{p_end}
 {phang2}{cmd: estat boot, all}{p_end}
 
 
