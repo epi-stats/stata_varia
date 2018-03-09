@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 1.07  15Feb2018}{...}
+{* *! version 1.08  09Mar2018}{...}
 {vieweralsosee " [FN] Random-number functions" "help random number functions"}{...}
 {viewerjumpto "Syntax" "restrand##syntax"}{...}
 {viewerjumpto "Description" "restrand##description"}{...}
