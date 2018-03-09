@@ -1,7 +1,8 @@
 # stata_varia
-Currently only 1 Stata command: randomlist 
-Generates allocation lists for clinical trials using permuted-block randomization with varying block size 
+Various commands for Stata
+Package randomalloc has commands for randomisation
+Package err calculates egg reduction rates
 
-To install open Stata and eexecute the following command:
+To install open Stata and execute the following command:
 
 net from https://raw.github.com/epi-stats/stata_varia/master/
