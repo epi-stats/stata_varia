@@ -1,11 +1,11 @@
 {smcl}
 {* *! version 1.01  09Mar2018}{...}
-{vieweralsosee " [FN] Random-number functions" "help random number functions"}{...}
-{viewerjumpto "Syntax" "restrand##syntax"}{...}
-{viewerjumpto "Description" "restrand##description"}{...}
-{viewerjumpto "Options" "restrand##options"}{...}
-{viewerjumpto "Remarks" "restrand##remarks"}{...}
-{viewerjumpto "Examples" "restrand##examples"}{...}
+{vieweralsosee " [R] bootstrap" "help bootstrap"}{...}
+{viewerjumpto "Syntax" "eggrr##syntax"}{...}
+{viewerjumpto "Description" "eggrr##description"}{...}
+{viewerjumpto "Options" "eggrr##options"}{...}
+{viewerjumpto "Remarks" "eggrr##remarks"}{...}
+{viewerjumpto "Examples" "eggrr##examples"}{...}
 
 {title:Title}
 {phang}
