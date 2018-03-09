@@ -1,4 +1,4 @@
-*! version 1.0 - 9 March 2018
+*! version 1.01 - 9 March 2018
 program define eggrr, rclass sortpreserve byable(recall)
   version 14
   syntax varlist(min=2 max=2 numeric) [if] [in] [, Replicates(int 5000) NOBoot]
@@ -24,7 +24,6 @@ program define eggrr, rclass sortpreserve byable(recall)
   local errgm = (1 - `g2'/`g1') * 100 
   local erram = (1 - `a2'/`a1') * 100 
   if("`noboot'" == "") mata: bootegg("`varlist'", "`touse'", `replicates')  
-  di as result "N: " Nobs  
   di as result "Geometric mean ERR: " round(`errgm', .01) " (BL:" round(`g1',.1) ", FU: " round(`g2',.1) ")"
   di as result "Arithmetic mean ERR: " round(`erram', .01) " (BL:" round(`a1',.1) ", FU: " round(`a2',.1) ")"
   quietly count if `touse'
