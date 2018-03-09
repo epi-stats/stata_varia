@@ -9,13 +9,13 @@
 
 {title:Title}
 {phang}
-{bf:restrand} {hline 2}  Calculates egg reduction rates 
+{bf:eggrr} {hline 2}  Calculates egg reduction rates 
 
 {marker syntax}{...}
 {title:Syntax}
 
 {p 8 18 2}
-{cmd:logistic} {varlist}  {ifin} 
+{cmd:eggrr} {varlist}  {ifin} 
 [{cmd:,} {it:options}] 
 
 {synoptset 28 tabbed}{...}
@@ -45,22 +45,12 @@ Confidence intervals are constructed via bootstrapping. Can be combined with {cm
 {phang}
 {opt noboot} Supress the bootstrap resampling. This option does only make sense if the command should be combined with number of treatments i.e. trial arms (default is 2).
 
-{phang}
-{opt seed(#)} the seed to initiate the pseudo random number generator. 
-If 0 (the default) the current date  and time will be used to generate a number randomly. 
-The same seed will generate the same randomisation list. Can be combined with {cmd:bootstrap}. 
-The command's own bootstrap algorithm is much faster because it is implemented in MATA but Stata's native bootstrap offers more options.
-See examples for details.
-
-{phang}
-{opt n(#)} the number of units to be randomized to each arm. 
-If 0 (the default) as many units as possible will be randomized, which is trunc(_N/arms) per treatment group.
-
 
 {marker remarks}{...}
 {title:Remarks}
 
-Calculates egg reduction rates based on geometric anrithmetric means. Often used in helminth research. The varlist should contain exactly 2 vaiables. 
+Calculates egg reduction rates based on geometric anrithmetric means. Often used in helminth research. 
+The varlist should contain exactly 2 vaiables. 
 The 1st represents baseline data and the 2nd after treatment data (follow-up).
 The geometric mean is calculated as:
 exp(sum(log(X + 1))) - 1
