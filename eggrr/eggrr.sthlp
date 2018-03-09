@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 1.0  09Mar2018}{...}
+{* *! version 1.01  09Mar2018}{...}
 {vieweralsosee " [FN] Random-number functions" "help random number functions"}{...}
 {viewerjumpto "Syntax" "restrand##syntax"}{...}
 {viewerjumpto "Description" "restrand##description"}{...}
@@ -32,7 +32,7 @@
 {title:Description}
 
 {pstd}
-{cmd:restrand} Calculates egg reduction rates based on geometric anrithmetric means. 
+{cmd:eggrr} Calculates egg reduction rates based on geometric anrithmetric means. 
 Confidence intervals are constructed via bootstrapping. Can be combined with {cmd:by}
 
 {marker options}{...}
