@@ -3,7 +3,8 @@ program define restrand, rclass
   version 14
   syntax varlist(num) , Constraints(numlist) [Arms(int 2) SEed(int 0) n(int 0)]
   foreach v of varlist `varlist' {
-     if missing(`v') error 416
+     qui count if missing(`v')
+     if r(N) > 0 error 416
   }
   local nvars: word count `varlist'
   local nres: word count `constraints'
