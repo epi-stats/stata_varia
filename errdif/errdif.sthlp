@@ -53,11 +53,12 @@ Confidence intervals can be constructed using {cmd:bootstrap}.
 {title:Remarks}
 
 Calculates differences between 2 egg reduction rates based on geometric or arithmetic means. 
-The varlist should contain exactly 2 vaiables. The 1st represents baseline data and the 2nd after treatment data (follow-up).
+The varlist should contain exactly 2 vaiables. 
+The 1st represents baseline data and the 2nd after treatment data (follow-up).
 The geometric mean is calculated as:
 exp(sum(log(X + 1))) - 1
-Confidence intervals should be constructed with Stata's bootstrap algorithm with option strata (see examples).
-Missing values in baseline or follow-up should either be dropped or excluded via if/in before bootstrapping.
+Confidence intervals can be constructed with Stata's bootstrap algorithm (option strata, see examples).
+Missing values in baseline or follow-up should be dropped or excluded via if/in before bootstrapping.
 {pstd}
 
 
@@ -68,7 +69,8 @@ Missing values in baseline or follow-up should either be dropped or excluded via
 {pstd}Example with temperature data. For the bootstrap algorithm oiption strata should contain the tretment arm variable  {p_end}
 {phang2}{cmd: sysuse citytemp, replace}{p_end}
 {phang2}{cmd: errdif heatdd cooldd, arm(region) treat(1) comp(4)}{p_end}
-{phang2}{cmd: bootstrap GM=r(dif_gm) AM=r(dif_am), r(1000) str(region): errdif heatdd cooldd if !mi(heatdd, cooldd), a(region) t(1) c(4)}{p_end}
+{phang2}{cmd: drop if missing(heatdd, cooldd) }{p_end}
+{phang2}{cmd: bootstrap GM=r(dif_gm) AM=r(dif_am), r(1000) str(region): errdif heatdd cooldd, a(region) t(1) c(4)}{p_end}
 {phang2}{cmd: estat boot, all}{p_end}
 
 
