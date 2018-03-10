@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 1.02  09Mar2018}{...}
+{*! version 1.02  09Mar2018}{...}
 {vieweralsosee " [R] bootstrap" "help bootstrap"}{...}
 {viewerjumpto "Syntax" "eggrr##syntax"}{...}
 {viewerjumpto "Description" "eggrr##description"}{...}
