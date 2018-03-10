@@ -1,4 +1,4 @@
-*! version 1.0 - 9 March 2018
+*! version 1.02 - 10Mar2018
 program define errdif, rclass 
    version 14
    syntax varlist(min=2 max=2 numeric) [if] [in], Arm(varname) Treat(int) Comp(int) 
