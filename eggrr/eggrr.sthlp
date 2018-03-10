@@ -50,7 +50,7 @@ See examples for details.
 {marker remarks}{...}
 {title:Remarks}
 
-Calculates egg reduction rates based on geometric anrithmetric means. Often used in helminth research. 
+Calculates egg reduction rates based on geometric anrithmetric means.
 The varlist should contain exactly 2 vaiables. 
 The 1st represents baseline measurements and the 2nd after treatment data (follow-up).
 The geometric mean is calculated as:
