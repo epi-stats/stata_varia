@@ -1,5 +1,5 @@
-d Currently the package has only 1 commands: eggrr
-d eggrr calculates egg reduction rates based on geometric or arithmetic mean and provides bootstrap confidence intervals. 
+d The package has 2 commands: eggrr and errdif
+d eggrr calculates egg reduction rates based on geometric or arithmetic mean with bootstrap CI's. 
 d errdif calculates the absolute difference between 2 egg reduction rates 
 d
 f eggrr/eggrr.ado
