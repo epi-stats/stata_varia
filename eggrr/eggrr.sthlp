@@ -66,7 +66,7 @@ exp(sum(log(X + 1))) - 1
 {pstd}Example with temperature data{p_end}
 {phang2}{cmd: sysuse citytemp, replace}{p_end}
 {phang2}{cmd: eggrr heatdd cooldd}{p_end}
-{phang2}{cmd:  bysort region: eggrr heatdd cooldd}{p_end}
+{phang2}{cmd: bysort region: eggrr heatdd cooldd}{p_end}
 {hline}
 {pstd}Example using Stata's bootstrap algorithm{p_end}
 {phang2}{cmd: sysuse citytemp, replace}{p_end}
