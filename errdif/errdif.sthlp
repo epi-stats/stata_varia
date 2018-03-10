@@ -34,7 +34,7 @@
 
 {pstd}
 {cmd:eggrr} Calculates egg reduction rates based on geometric anrithmetric means. 
-Confidence intervals can be constructed using {cmd:bootstrap}. Can be combined with {cmd:by}
+Confidence intervals can be constructed using {cmd:bootstrap}. 
 
 {marker options}{...}
 {title:Options}
