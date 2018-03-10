@@ -1,4 +1,4 @@
-*! version 1.02 - 10 March 2018
+*! version 1.03 - 10Mar2018
 program define eggrr, rclass sortpreserve byable(recall)
   version 14
   syntax varlist(min=2 max=2 numeric) [if] [in] [, Replicates(int 5000) NOBoot]
@@ -9,6 +9,7 @@ program define eggrr, rclass sortpreserve byable(recall)
   qui: count if `bl' == 0 & `touse'
   if r(N) > 0 display "Warning: zero-egg-counts at baseline detected"
   cap assert `bl' >= 0 & `fu' >= 0 if `touse' 
+  di "_rc"
   if _rc == 9 {
      display as error "negative values in `bl' and/or `fu' encountered"
      exit 411
