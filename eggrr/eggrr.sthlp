@@ -70,8 +70,7 @@ exp(sum(log(X + 1))) - 1
 {hline}
 {pstd}Example using Stata's bootstrap algorithm{p_end}
 {phang2}{cmd: sysuse citytemp, replace}{p_end}
-{phang2}{cmd: keep if !missing(heatdd, cooldd)}{p_end}
-{phang2}{cmd: bootstrap Gerr=r(err_gm), rep(1000): eggrr heatdd cooldd, noboot}{p_end}
+{phang2}{cmd: bootstrap GM=r(err_gm), rep(1000): eggrr heatdd cooldd if !mi(heatdd, cooldd), noboot}{p_end}
 {phang2}{cmd: estat boot, all}{p_end}
 
 
