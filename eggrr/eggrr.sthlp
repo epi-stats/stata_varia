@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 1.01  09Mar2018}{...}
+{* *! version 1.02  09Mar2018}{...}
 {vieweralsosee " [R] bootstrap" "help bootstrap"}{...}
 {viewerjumpto "Syntax" "eggrr##syntax"}{...}
 {viewerjumpto "Description" "eggrr##description"}{...}
@@ -18,13 +18,12 @@
 {cmd:eggrr} {varlist}  {ifin} 
 [{cmd:,} {it:options}] 
 
-{synoptset 28 tabbed}{...}
 {synoptset 20 tabbed}{...}
 {synopthdr}
 {synoptline}
 {syntab:Main}
 {synopt:{opt r:eplicates(#)}} number of bootstrap replicates{p_end}
-{synopt:{opt nob:oot}} don't construct bootstrap confidence intervals {p_end}
+{synopt:{opt nob:oot}} omit bootstrap confidence intervals {p_end}
 {synoptline}
 
 {p2colreset}{...}
@@ -32,7 +31,7 @@
 {title:Description}
 
 {pstd}
-{cmd:eggrr} Calculates egg reduction rates based on geometric anrithmetric means. 
+{cmd:eggrr} Calculates egg reduction rates based on geometric or arithmetic means. 
 Confidence intervals are constructed via bootstrapping. Can be combined with {cmd:by}
 
 {marker options}{...}
@@ -43,7 +42,9 @@ Confidence intervals are constructed via bootstrapping. Can be combined with {cm
 {opt replicates(#)} Number of bootstrap resamplings. Default is set to 5000.
 
 {phang}
-{opt noboot} Supress the bootstrap resampling. This option does only make sense if the command should be combined with number of treatments i.e. trial arms (default is 2).
+{opt noboot} Omit the bootstrap resampling. 
+This option is usually used if Stata's native bootstrap algorithm should be used which is much slower but offers different types bootstrap CIs.
+See examples for details.
 
 
 {marker remarks}{...}
@@ -51,7 +52,7 @@ Confidence intervals are constructed via bootstrapping. Can be combined with {cm
 
 Calculates egg reduction rates based on geometric anrithmetric means. Often used in helminth research. 
 The varlist should contain exactly 2 vaiables. 
-The 1st represents baseline data and the 2nd after treatment data (follow-up).
+The 1st represents baseline measurements and the 2nd after treatment data (follow-up).
 The geometric mean is calculated as:
 exp(sum(log(X + 1))) - 1
 
