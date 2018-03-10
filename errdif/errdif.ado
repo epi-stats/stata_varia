@@ -8,6 +8,11 @@ program define errdif, rclass
    local fu:  word 2 of `varlist'
    qui: count if `bl' == 0 & `touse'
    if r(N) > 0 display "Warning: zero-egg-counts at baseline detected"
+   cap assert `bl' >= 0 & `fu' >= 0 if `touse' & (`arm' == `treat' | `arm' == `comp')
+   if _rc == 9 {
+     display as error "negative values in `bl' and/or `fu' encountered"
+     exit 411
+   }   
    qui ameans `bl' if `arm' == `treat' & `touse', add(1) 
    local gmtbl = r(mean_g) - 1 
    local amtbl = r(mean) - 1 
