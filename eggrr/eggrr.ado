@@ -1,20 +1,18 @@
-*! version 1.01 - 9 March 2018
+*! version 1.02 - 10 March 2018
 program define eggrr, rclass sortpreserve byable(recall)
   version 14
   syntax varlist(min=2 max=2 numeric) [if] [in] [, Replicates(int 5000) NOBoot]
-  /*
-  foreach v of varlist `varlist' {
-     qui count if missing(`v')
-     if r(N) > 0 error 416
-  }
-  */
   marksample touse
   local bl:  word 1 of `varlist'
   local fu:  word 2 of `varlist'
-
   di "Baseline var: `bl', Follow-up var: `fu'"
   qui: count if `bl' == 0 & `touse'
   if r(N) > 0 display "Warning: zero-egg-counts at baseline detected"
+  cap assert `bl' >= 0 & `fu' >= 0 if `touse' 
+  if _rc == 9 {
+     display as error "negative values in `bl' and/or `fu' encountered"
+     exit 411
+  }   
   qui: ameans `bl' if `touse' , add(1) 
   local g1 = r(mean_g) - 1 
   local a1 = r(mean) - 1 
