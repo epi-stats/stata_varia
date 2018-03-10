@@ -65,7 +65,7 @@ Missing values in baseline or follow-up should either be dropped or excluded via
 {marker examples}{...}
 {title:Examples}
 {hline}
-{pstd}Example with temperature data. For the bootstrap algorithm oiption strata should contain the tretment arm variable and  {p_end}
+{pstd}Example with temperature data. For the bootstrap algorithm oiption strata should contain the tretment arm variable  {p_end}
 {phang2}{cmd: sysuse citytemp, replace}{p_end}
 {phang2}{cmd: errdif heatdd cooldd, arm(region) treat(1) comp(4)}{p_end}
 {phang2}{cmd: bootstrap GM=r(dif_gm) AM=r(dif_am), r(1000) str(region): errdif heatdd cooldd if !mi(heatdd, cooldd), a(region) t(1) c(4)}{p_end}
