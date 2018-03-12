@@ -81,8 +81,6 @@ program define randomlist
   qui: replace val =  day(date("$S_DATE" , "DMY"))+ month(date("$S_DATE" , "DMY"))/100 in 4
   qui: replace info = "Year" in 5
   qui: replace val =  year(date("$S_DATE" , "DMY")) in 5
-
-  day(date("$S_DATE" , "DMY")) + month(date("$S_DATE" , "DMY"))/100
   if(`blocksize' > 0){
 	  qui: replace info = "blk size" in 6
 	  qui: replace val = `blocksize' in 6
