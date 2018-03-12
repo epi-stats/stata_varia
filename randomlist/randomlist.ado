@@ -1,4 +1,4 @@
-*! version 1.01 SRH 10 Jan 2018
+*! version 1.02 12Mar2018
 
 program define randomlist
   version 14
@@ -71,19 +71,25 @@ program define randomlist
 	drop rnd
 	if (`strata' == 1) drop stratum
 	}  
-  qui: gen detail = "seed" in 1
-  qui: gen value = `seed' in 1
-  qui: replace detail = "N arms" in 2
-  qui: replace value = `arms' in 2
-  qui: replace detail = "code vers" in 3
-  qui: replace value = 1.01 in 3
+  qui: gen info = "seed" in 1
+  qui: gen val = `seed' in 1
+  qui: replace info = "N arms" in 2
+  qui: replace val = `arms' in 2
+  qui: replace info = "code vers" in 3
+  qui: replace val = 1.01 in 3
+  qui: replace info = "Date" in 4
+  qui: replace val =  day(date("$S_DATE" , "DMY"))+ month(date("$S_DATE" , "DMY"))/100 in 4
+  qui: replace info = "Year" in 5
+  qui: replace val =  year(date("$S_DATE" , "DMY")) in 5
+
+  day(date("$S_DATE" , "DMY")) + month(date("$S_DATE" , "DMY"))/100
   if(`blocksize' > 0){
-	  qui: replace detail = "blk size" in 4
-	  qui: replace value = `blocksize' in 4
+	  qui: replace info = "blk size" in 6
+	  qui: replace val = `blocksize' in 6
   }  
   if(`maxblocksize' > `blocksize'){
-	qui: replace detail = "max blk" in 5
-	qui: replace value = `maxblocksize' in 5
+	qui: replace info = "max blk" in 7
+	qui: replace val = `maxblocksize' in 7
   }
 end
 
