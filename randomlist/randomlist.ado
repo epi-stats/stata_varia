@@ -78,7 +78,7 @@ program define randomlist
   qui: replace info = "code vers" in 3
   qui: replace val = 1.01 in 3
   qui: replace info = "Date" in 4
-  qui: replace val =  day(date("$S_DATE" , "DMY"))+ month(date("$S_DATE" , "DMY"))/100 in 4
+  qui: replace val =  day(date("$S_DATE" , "DMY")) + month(date("$S_DATE" , "DMY"))/100 in 4
   qui: replace info = "Year" in 5
   qui: replace val =  year(date("$S_DATE" , "DMY")) in 5
   if(`blocksize' > 0){
