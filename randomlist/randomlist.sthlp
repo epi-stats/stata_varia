@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 1.01  10Jan2018}{...}
+{* *! version 1.02  12Mar2018}{...}
 {vieweralsosee " [FN] Random-number functions" "help random number functions"}{...}
 {viewerjumpto "Syntax" "randomlist##syntax"}{...}
 {viewerjumpto "Description" "randomlist##description"}{...}
@@ -78,7 +78,7 @@ Default is 1.
 The current random seed will be modified independent if option {cmd:seed} is specified or not.
 Usually, it is recommended to use block randomisation to ensure a balanced number of patients in 
 each treatment arm. 
-In a clinical trial with 2 treatment arms (A and B), a block size of 4 will result in 6 possiblele permutations 
+In a clinical trial with 2 treatment arms (A and B), a block size of 4 will result in 6 possible permutations 
 AABB, ABAB, BABA, ABBA, BAAB, BBAA. 
 The allcoation ratio is always (1:1:...:1). 
 If you require a different allocation ratio increase the number of trial arms followed by {cmd:recode}.
