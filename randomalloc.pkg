@@ -1,6 +1,8 @@
 d Currently the package has only 2 commands: randomlist and restrand
 d randomlist generates simple or block allocation lists for clinical trials
 d restrand applies covariate constrained randomisation which is often used in cluster randomized trials
+d Jan Hattendorf, SwissTPH
+d
 f randomlist/randomlist.ado
 f randomlist/randomlist.sthlp
 f restrand/restrand.ado
