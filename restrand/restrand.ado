@@ -24,6 +24,7 @@ program define restrand, rclass
   } 
   di "Seed set to: `seed'"  
   set seed `seed'
+  display "Start time: $S_DATE $S_TIME" 
   qui: gen _arm = .
   mata: checkpermute("`varlist'", "`constraints'", `arms', `n')
   return scalar seed = `seed' 
@@ -86,7 +87,6 @@ void function checkpermute(string scalar varlist,
   printf("Number of trial arms: %f\n", arms)
   printf("Number of clusters per arm: %f\n", nperarm)
   printf("Number of permutation sequences : %14.0f\n",  stopseq) 
-  stata(`"display `"Start time: $S_DATE $S_TIME"'"') 
  
   aseq = J(1, nobs, .)
   mdiag = J(nobs, nobs, 0)
