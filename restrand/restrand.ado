@@ -1,4 +1,4 @@
-*! version 1.08  09Mar2018
+*! version 1.09  13Mar2018
 program define restrand, rclass
   version 14
   syntax varlist(num) , Constraints(numlist) [Arms(int 2) SEed(int 0) n(int 0)]
@@ -63,8 +63,8 @@ void function checkpermute(string scalar varlist,
   nperm = nperm/exp(lnfactorial(remain))
 
   /* set up the initial allocation sequence. If possible in a symmetric way */
-  if(remain > 0 & mod(arms, 2) == 1){
-    printf("Note: Algorithm can't identify duplicate sequences if (number of arms is odd and not all units are randomized).\n")
+  if(remain > 0){
+    printf("Note: Algorithm can't identify duplicate sequences if (Not all units are randomized).\n")
     allo = J(1, 1, 1..nobs)
     allo = ceil(allo/nperarm)
     allo = mm_cond(allo:> arms, 0, allo)
