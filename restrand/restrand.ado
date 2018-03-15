@@ -1,6 +1,6 @@
-*! version 1.09  13Mar2018
+*! version 1.10  15Mar2018
 program define restrand, rclass
-  version 14
+  version 13
   syntax varlist(num) , Constraints(numlist) [Arms(int 2) SEed(int 0) n(int 0)]
   foreach v of varlist `varlist' {
      qui count if missing(`v')
@@ -33,7 +33,7 @@ program define restrand, rclass
   return matrix alloc allocation     
 end
 
-version 14
+version 13
 mata:
 void function checkpermute(string scalar varlist, 
                            string matrix constraints,
