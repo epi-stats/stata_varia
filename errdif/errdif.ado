@@ -1,6 +1,6 @@
-*! version 1.03 - 10Mar2018
+*! version 1.04 - 15Mar2018
 program define errdif, rclass 
-   version 14
+   version 13
    syntax varlist(min=2 max=2 numeric) [if] [in], Arm(varname) Treat(int) Comp(int) 
    confirm numeric var `arm' 
    marksample touse
