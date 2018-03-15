@@ -1,6 +1,6 @@
-*! version 1.03 - 10Mar2018
+*! version 1.04 - 15Mar2018
 program define eggrr, rclass sortpreserve byable(recall)
-  version 14
+  version 13
   syntax varlist(min=2 max=2 numeric) [if] [in] [, Replicates(int 5000) NOBoot]
   marksample touse
   local bl:  word 1 of `varlist'
@@ -36,7 +36,7 @@ program define eggrr, rclass sortpreserve byable(recall)
   }
 end
 
-version 14
+version 13
 mata:
 void function bootegg(string scalar varlist, string scalar touse, real scalar loops)
 {
