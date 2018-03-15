@@ -1,7 +1,7 @@
-*! version 1.02 12Mar2018
+*! version 1.03 15Mar2018
 
 program define randomlist
-  version 14
+  version 13
   gettoken N 0 : 0, parse(" ,") 
   confirm integer number `N'
   if `N' <=0 error 411 
