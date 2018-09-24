@@ -1,6 +1,7 @@
 d The package has 2 commands: eggrr and errdif
 d eggrr calculates egg reduction rates based on geometric or arithmetic mean with bootstrap CI's. 
-d errdif calculates the absolute difference between 2 egg reduction rates 
+d (Note: this command requires mm_quantile from the moremata package. Type -ssc install moremata- )
+d errdif calculates the absolute difference between 2 egg reduction rates. 
 d Jan Hattendorf, SwissTPH
 d
 f eggrr/eggrr.ado
