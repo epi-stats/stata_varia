@@ -58,7 +58,7 @@ The 1st represents baseline data and the 2nd after treatment data (follow-up).
 The geometric mean is calculated as:
 exp(sum(log(X + 1))) - 1
 Confidence intervals can be constructed with Stata's bootstrap algorithm (option strata, see examples).
-Missing values in baseline or follow-up should be dropped or excluded via if/in before bootstrapping.
+Missing values in baseline or follow-up should be dropped (or excluded via if/in) before bootstrapping.
 {pstd}
 
 
@@ -66,7 +66,7 @@ Missing values in baseline or follow-up should be dropped or excluded via if/in 
 {marker examples}{...}
 {title:Examples}
 {hline}
-{pstd}Example with temperature data. For the bootstrap algorithm oiption strata should contain the tretment arm variable  {p_end}
+{pstd}Example with temperature data. For the bootstrap algorithm oiption strata should contain the treatment arm variable  {p_end}
 {phang2}{cmd: sysuse citytemp, replace}{p_end}
 {phang2}{cmd: errdif heatdd cooldd, arm(region) treat(1) comp(4)}{p_end}
 {phang2}{cmd: drop if missing(heatdd, cooldd) }{p_end}
@@ -83,8 +83,6 @@ Missing values in baseline or follow-up should be dropped or excluded via if/in 
 
 {synoptset 20 tabbed}{...}
 {p2col 5 20 24 2: Scalars}{p_end}
-{synopt:{cmd:r(Nt)}} Number of observations used in the treatment group{p_end}
-{synopt:{cmd:r(Nc)}} difference in arithmetic mean ERR{p_end}
 {synopt:{cmd:r(dif_gm)}} difference in geometric mean ERR{p_end}
 {synopt:{cmd:r(dif_am)}} difference in arithmetic mean ERR{p_end}
 {synoptset 20 tabbed}{...}
