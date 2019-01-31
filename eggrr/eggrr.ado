@@ -1,4 +1,4 @@
-*! version 1.04 - 15Mar2018
+*! version 1.05 - 31Jan2019
 program define eggrr, rclass sortpreserve byable(recall)
   version 13
   syntax varlist(min=2 max=2 numeric) [if] [in] [, Replicates(int 5000) NOBoot]
@@ -54,7 +54,39 @@ void function bootegg(string scalar varlist, string scalar touse, real scalar lo
 	  bootmat[i,1] = gmerr
 
   }
-  q = mm_quantile(bootmat, 1, (0.025 \ 0.5 \ 0.975))
+  // Code below to remove dependency on moremata (mm_quantile) can't find the source code  
+  q = J(3,2,.)
+  _sort(bootmat, 1)
+  if (loops * 0.025 == trunc(loops * 0.025)) {
+      q[1,1] = bootmat[loops * 0.025, 1]
+      q[3,1] = bootmat[loops * 0.975, 1]
+  } 
+  else {
+      q[1,1] = (bootmat[trunc(loops * 0.025), 1] + bootmat[trunc(loops * 0.025)+1, 1])/2
+      q[3,1] = (bootmat[trunc(loops * 0.975), 1] + bootmat[trunc(loops * 0.975)+1, 1])/2	 
+  }
+  if (loops * 0.5 == trunc(loops * 0.5)) {
+      q[2,1] = bootmat[loops * 0.5,1]
+  } 
+  else {
+      q[2,1] = (bootmat[trunc(loops * 0.5), 1] + bootmat[trunc(loops * 0.5)+1, 1])/2
+  }  
+    _sort(bootmat, 2)
+  if (loops * 0.025 == trunc(loops * 0.025)) {
+      q[1,2] = bootmat[loops * 0.025, 2]
+      q[3,2] = bootmat[loops * 0.975, 2]
+  } 
+  else {
+      q[1,2] = (bootmat[trunc(loops * 0.025), 2] + bootmat[trunc(loops * 0.025)+1, 2])/2
+      q[3,2] = (bootmat[trunc(loops * 0.975), 2] + bootmat[trunc(loops * 0.975)+1, 2])/2	 
+  }
+  if (loops * 0.5 == trunc(loops * 0.5)) {
+     q[2,2] = bootmat[loops * 0.5, 2]
+  } 
+  else {
+     q[2,2] = (bootmat[trunc(loops * 0.5), 2] + bootmat[trunc(loops * 0.5)+1, 2])/2
+  }  
+  // mm_quantile(bootmat, 1, (0.025 \ 0.5 \ 0.975))
   st_matrix("quantiles", q)
 }
 end 
