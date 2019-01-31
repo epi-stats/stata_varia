@@ -1,5 +1,5 @@
 {smcl}
-{*! version 1.02  09Mar2018}{...}
+{*! version 1.05  31Jan2019}{...}
 {vieweralsosee " [R] bootstrap" "help bootstrap"}{...}
 {viewerjumpto "Syntax" "eggrr##syntax"}{...}
 {viewerjumpto "Description" "eggrr##description"}{...}
@@ -51,7 +51,6 @@ See examples for details.
 {title:Remarks}
 
 Calculates egg reduction rates based on geometric and anrithmetric means.
-NOTE: The program requires the moremata package. Type -ssc install moremata- to install. 
 The varlist should contain exactly 2 vaiables. 
 The 1st represents baseline measurements and the 2nd after treatment data (follow-up).
 The geometric mean is calculated as:
