@@ -7,9 +7,9 @@ program define restrand, rclass
      if r(N) > 0 error 416
   }
   local nvars: word count `varlist'
-  local nres: word count `constraints'
+  local nres: word count `constrain'
   if (`nvars' != `nres'){
-     di as error "Number of variables != number of constraints"
+     di as error "Number of variables != number of constrain"
 	         exit 459
   }
   if (`seed' == 0){
