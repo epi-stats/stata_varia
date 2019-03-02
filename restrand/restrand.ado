@@ -1,7 +1,7 @@
-*! version 1.10  15Mar2018
+*! 1.0.7  2 March 2019
 program define restrand, rclass
   version 13
-  syntax varlist(num) , Constraints(numlist) [Arms(int 2) SEed(int 0) n(int 0)]
+  syntax varlist(num) [if] [in], Constrain(numlist) [Arms(int 2) SEed(int 0) n(int 0) SAmple(int 0) Count Verbose(int 0)]
   foreach v of varlist `varlist' {
      qui count if missing(`v')
      if r(N) > 0 error 416
@@ -22,11 +22,17 @@ program define restrand, rclass
      di as error "Product of arms and obs per arm is < number of obs"
 	         exit 459
   } 
-  di "Seed set to: `seed'"  
   set seed `seed'
-  display "Start time: $S_DATE $S_TIME" 
-  qui: gen _arm = .
-  mata: checkpermute("`varlist'", "`constraints'", `arms', `n')
+  marksample touse
+  qui: cap gen _arm = .
+  qui: sum _arm 
+  if (r(N) > 0) di as smcl "Note: variable _arm exists and has non-missing values"  
+  di as smcl as txt "{p}"
+  di as smcl "Seed set to: `seed'"  
+  di as smcl "{p_end}"
+  mata: checkpermute("`varlist'", "`constrain'", `arms', `n', "`count'", `verbose', `sample', "`touse'")
+  if (validseq > 0) mean `varlist' if `touse' , over(_arm) noheader
+  else  di as error "No valid Sequence identified - relax constraints"
   return scalar seed = `seed' 
   return scalar Nvalidseq = validseq 
   return matrix diag diagnostic 
@@ -38,183 +44,258 @@ mata:
 void function checkpermute(string scalar varlist, 
                            string matrix constraints,
 						   real scalar arms,
-						   real scalar n)
+						   real scalar n,
+						   string matrix asCount,
+						   real scalar verbose,
+						   real scalar nSample,
+						   string scalar touse) 
 {
-  real matrix rd, mdiag
-  real rowvector rest, difmean
-  real scalar i, j, k, m, count, nobs, nperarm, remain, nperm, nvalid
-  
-  /* same basic calculations obs per arm, etc */
-  rest = strtoreal(tokens(constraints))
-  rd = st_data(., varlist)
-  nobs = rows(rd)
-  if(n == 0){
-    nperarm = floor(nobs/arms)
-    remain = mod(nobs, arms)
-  }
-  if(n != 0){
-    nperarm = n
-    remain = nobs - n * arms
-  } 
-  nperm = exp(lnfactorial(nobs))
-  for (i=1; i<=arms; i++){
-    nperm = nperm/exp(lnfactorial(nperarm))
-  }
-  nperm = nperm/exp(lnfactorial(remain))
-
-  /* set up the initial allocation sequence. If possible in a symmetric way */
-  if(remain > 0){
-    printf("Note: Algorithm can't identify duplicate sequences if (Not all units are randomized).\n")
-    allo = J(1, 1, 1..nobs)
-    allo = ceil(allo/nperarm)
-    allo = mm_cond(allo:> arms, 0, allo)
-    allo = colshape(allo,1)
-    stopseq = nperm
-  } else 
-  {
-    printf("Note: half of potential allocation sequences are dropped because of symmetry.\n")
-    allo = J(1, 1, 1..nobs)
-    allo = ceil(allo/nperarm)
-    allo = mm_cond(allo:> arms, arms/2+.05, allo)
-    allo = colshape(allo,1)   
-    allo = sort(allo, 1)
-    allo = mm_cond(allo:== arms/2+.05, 0, allo)   
-    stopseq = nperm/2
-  }
-  /* allo' */
-
-  printf("Number of clusters to randomize: %f\n", nobs)
-  printf("Number of trial arms: %f\n", arms)
-  printf("Number of clusters per arm: %f\n", nperarm)
-  printf("Number of permutation sequences : %14.0f\n",  stopseq) 
- 
-  aseq = J(1, nobs, .)
-  mdiag = J(nobs, nobs, 0)
-  count = 1
-  nvalid = 0
- 
-  /* if number of permuations is above 10 mio, assess only 3 mio random allocations */ 
-  if(stopseq > 10000000){
-    printf("Number of permutation sequences > 1e+07, 3'000'000 random sequences will be assessed instead\n")
-    while (count <= 3000000) {
-	  p = jumble(allo)
-	  count++
-      if (mod(count, 50000)==0) {
-        printf(". ")
-	    displayflush()
-	  }
-      if (mod(count, 500000)==0){
-        adv = strofreal(count/30000, "%12.0f")  
-        display(adv + "%; valid seq: " + strofreal(nvalid))
-	  }
-      mmeans = J(arms, cols(rd),  .)
-      for (i=1; i<=cols(rd); i++){
-        for (j=1; j<=arms; j++){
-          mmeans[j, i] = mean(rd[., i], (p:== j))
-        }
-      }
-      difmean = colmax(mmeans)-colmin(mmeans) 
-      valid = rest - difmean 
-      /* 
-      if (mod(count, 100000)==0){     
-	    display("details:")
-	    p'
-		mmeans
-        difmean
-        valid
-        min(valid)
-	   }
-      */
-      if(min(valid) >= 0){   /* valid combination */
-      nvalid++
-      ru = runiform(1,1)
-	  if(ru[1,1] < 1/nvalid){ /* repace current seq by new sequence */
-		aseq = p
-	  }
-	  for(k=1; k<=nobs; k++){
-	    for(m=(k+1); m<=nobs; m++){
-	      if(p[k] == p[m]) mdiag[m,k] = mdiag[m,k]+1
-	    }
-	  }  
-    }
-   }
-   printf("\nNumber of allocation sequences satisfying constraints: %f\n", nvalid)
-  } else
-  {
-    info = cvpermutesetup(allo)
-    while (count <= stopseq) {
-	  p = cvpermute(info)
-	  count++
-	  if (mod(count, 50000)==0) {
-		 printf(". ")
-		 displayflush()
-		 }
-	  if (mod(count, 500000)==0){
-		 adv = strofreal(count/nperm*100, "%12.0f")  
-		 display(adv + "%; valid seq: " + strofreal(nvalid))
-		  }
-	  mmeans = J(arms, cols(rd),  .)
-	  for (i=1; i<=cols(rd); i++){
-		 for (j=1; j<=arms; j++){
-		   mmeans[j, i] = mean(rd[., i], (p:== j))
-		 }
-	  }
-	  difmean = colmax(mmeans)-colmin(mmeans) 
-	  valid = rest - difmean 
-	  /*
-	  if (mod(count, 100000)==0){     
-		 display("details:")
-		 mmeans
-		 difmean
-		 valid
-		 min(valid)
-	  }
-	  */ 
-	  if(min(valid) >= 0){
-		nvalid++
-		ru = runiform(1,1)
-		if(ru[1,1] < 1/nvalid){
-			aseq = p
+	transmorphic info /* cvpermutesetup */ 
+	real matrix rd, diagMat, meanMat, symDiag /* rd = data diagMat = diagnostics */ 
+	real matrix allo, allocSeq, p
+	real matrix ru /* single uniform random number */
+	real rowvector covCon, difMean /* covCon = constraints as numbers */
+	real scalar i, j, counter, misValue, rnd, valid 
+	real scalar nObs, nPerArm, remain, nPerm, nValid, stopSeq 
+	string displ, cnames, rnames, adv
+	
+	
+	/* some basic calculations (obs per arm, ...) */
+	covCon = strtoreal(tokens(constraints))
+	rd = st_data(., varlist, touse)
+	nObs = rows(rd)
+	if(n == 0) {
+		nPerArm = nObs/arms
+		remain = mod(nObs, arms)
+		/* calculate number of permutations (multinomial coefficient Nobs!/(N1! * ... * Nn!) */
+		nPerm = round(exp(lnfactorial(nObs)),1)
+		for (i = 1; i <= (arms-remain); i++) {
+		    nPerm = nPerm/round(exp(lnfactorial(trunc(nPerArm))),1)
 		}
-		for(k=1; k<=nobs; k++){
-		  for(m=(k+1); m<=nobs; m++){
-		    if(p[k] == p[m]) mdiag[m,k] = mdiag[m,k]+1
-		  }
-		}  
-	  }
-    }
-    printf("\nNumber of allocation sequences satisfying restrictions: %f\n", nvalid)
-    /* shuffle arms to ensure randomness although only half of all permutations have been invetigated */
-	nseq = aseq
-	rs = jumble(1::arms)
-	for(i = 1; i <= arms; i++){
-	  nseq = mm_cond(aseq:== i, rs[i], nseq)
+	    for (i = 1; i <= remain; i++) {
+		    nPerm = nPerm/round(exp(lnfactorial(ceil(nPerArm))),1)
+		}
+		remain = 0
 	}
-	aseq = nseq
-  }
-  aseq = mm_cond(aseq:== 0, ., aseq) 
-  /* allocation sequence to var _arm */
-  st_store(.,"_arm", aseq)
-  printf("Randomly selected sequence:")
-  aseq = colshape(aseq, nobs)
-  cnames = J(nobs, 2, " ")
-  rnames = J(1, 2, " ")
-  _matrix_list(aseq, rnames, cnames)
-  
-  /* diagnostics */  
-  printf("\nDiagnostics:\n")
-  for(i=1; i<=nobs; i++){
-    mdiag[i,i] = .
-  }
-  smdiag = makesymmetric(mdiag)
-  /* mdiag =  mm_cond(mdiag:== 0, ., mdiag) */
+	if(n != 0) {
+		nPerArm = n
+		remain = nObs - n * arms
+		/* calculate number of permutations (multinomial coefficient Nobs!/(N1! * ... * Nn!) */
+		nPerm = round(exp(lnfactorial(nObs)),1)
+		for (i = 1; i <= arms; i++) {
+			nPerm = nPerm/round(exp(lnfactorial(nPerArm)),1)
+		}
+		nPerm = nPerm/round(exp(lnfactorial(remain)),1)
+	}
+	
+	/* set up the initial allocation sequence (if possible with symmetry) */
+	allo = J(1, 1, 1..nObs)
+	allo = ceil(allo/nPerArm)
+	allo = colshape(allo,1)  
+	if(remain > 0) {
+		misValue = arms/2+.1
+		for (i = 1; i <= nObs; i++) {
+			if(allo[i,1] > arms) allo[i,1] = misValue
+		}
+	}
+	if(remain > 0 & mod(arms,2) == 1) {	
+		printf("{txt}Note: can't identify duplicate sequences (odd # arms & not all randomized)\n")
+		stopSeq = nPerm	
+	} else {
+		printf("{txt}Note: half of potential allocation sequences are dropped because of symmetry.\n")
+		stopSeq = nPerm/2
+	}
+	allo = sort(allo, 1)
 
-  round(smdiag / nvalid * 100)
-  res =  round(smdiag / nvalid * 100, .1)
-  /* return scalar and diagnostic matrix to stata */
-  st_numscalar("validseq", nvalid)
-  st_matrix("diagnostic", res)
-  st_matrix("allocation", aseq')
+	/* display some info */
+	printf("{txt}Number of units to randomize: %f\n", nObs)
+	printf("{txt}Number of trial arms: %f\n", arms)
+	printf("{txt}Number of units per arm: %f\n", round(nPerArm, .1))
+	printf("{txt}Number of permutations : %14.0f\n",  stopSeq)
+	if(nSample > 0){
+		printf("{txt}Number of random samples : %14.0f\n",  nSample)
+	}
+	if(nSample == 0 & stopSeq > 5000000){
+		printf("{txt}Note: Many permutations - consider option 'sample'\n")
+	}	
+	stata(`"display `"Start time: $S_DATE $S_TIME"'"') 
+ 
+	allocSeq = J(1, nObs, .) // initialisation of allocSeq to missing
+	diagMat = J(nObs, nObs, 0) // initialisation of diagnostic matrix with 0's
+	counter = 1
+	nValid = 0
+	
+	/* allo' */ //start sequence
+	
+	/* random sample instead of all permutations */ 
+
+	if(nSample > 0) {
+		while (counter <= nSample) {
+			p = jumble(allo)
+			meanMat = J(arms, cols(rd),  .)
+			for (i=1; i<=cols(rd); i++){
+				for (j=1; j<=arms; j++){
+					meanMat[j, i] = mean(rd[., i], (p:== j))
+				}
+			}
+			difMean = colmax(meanMat)-colmin(meanMat) 
+			valid = covCon - difMean 
+          
+			if(min(valid) >= 0) {   /* valid combination */
+				nValid++
+				ru = runiform(1,1)
+				if(ru[1,1] < 1/nValid) { /* repace current seq by new sequence */
+					allocSeq = p
+				}
+				for(i = 1; i <= nObs; i++){
+					for(j = (i+1); j <= nObs; j++){
+						if(p[i] == p[j]) diagMat[j,i] = diagMat[j,i]+1
+					}
+				}
+			}	
+			if(verbose > 0) {
+				if(mod(counter, verbose)==0) {
+					displ = strofreal(counter) + " Seq: "
+					for (i = 1; i <= nObs; i++) {
+						if(p[i,1] == misValue) p[i,1] = .
+						displ = displ + strofreal(p[i,1]) + " "
+					}
+					
+					displ = displ + " Dif: "
+					
+					for(i = 1; i <= cols(meanMat); i++){
+						
+						displ = displ + strofreal(round(difMean[i], .01)) + " "
+					}
+					if(min(valid) >= 0){
+						displ = displ + "VALID\n" 
+					} else {
+						displ = displ + "invalid\n" 
+					}
+
+					printf("Loop: " + displ)
+				}
+			} else {
+				if(mod(counter, 10000)==0) {
+					printf(". ")
+					displayflush()
+					if(mod(counter, 100000)==0){
+						adv = strofreal(100 * counter/nSample, "%12.0f")  
+						display(adv + "%; valid seq: " + strofreal(nValid))
+					}
+				}
+			}	
+		counter++
+		}
+	printf("\nNumber of allocation sequences satisfying constraints: %f\n", nValid)
+	} else {
+		
+		info = cvpermutesetup(allo)
+		while (counter <= stopSeq) {
+			p = cvpermute(info)
+			meanMat = J(arms, cols(rd),  .)
+			for (i = 1; i <= cols(rd); i++) {
+				for (j = 1; j <= arms; j++) {
+					meanMat[j, i] = mean(rd[., i], (p:== j))
+				}
+			}
+			difMean = colmax(meanMat)-colmin(meanMat) 
+			valid = covCon - difMean 
+			if(min(valid) >= 0) {
+				nValid++
+				ru = runiform(1,1)
+				if(ru[1,1] < 1/nValid){
+					allocSeq = p
+				}
+				for(i = 1; i <= nObs; i++){
+					for(j = (i+1); j <= nObs; j++){
+						if(p[i] == p[j]) diagMat[j, i] = diagMat[j, i]+1
+					}
+				}  
+			}
+			if(verbose > 0){
+				if(mod(counter, verbose)==0) {
+					displ = strofreal(counter) + " Seq: "
+					for (i = 1; i <= nObs; i++) {
+						if(p[i,1] == misValue) p[i,1] = .
+						displ = displ + strofreal(p[i,1]) + " "
+					}
+					
+					displ = displ + " Dif: "
+					
+					for(i = 1; i <= cols(meanMat); i++){
+						
+						displ = displ + strofreal(round(difMean[i], .01)) + " "
+					}
+					if(min(valid) >= 0){
+						displ = displ + "VALID\n" 
+					} else {
+						displ = displ + "invalid\n" 
+					}
+
+					printf("Loop: " + displ)
+				}
+			} else {
+				if(mod(counter, 10000)==0) {
+					printf(". ")
+					displayflush()
+					if(mod(counter, 100000)==0) {
+						adv = strofreal(counter/stopSeq*100, "%12.0f")  
+						display(adv + "%; Sequences satifying restrictions: " + strofreal(nValid))
+					}
+				}
+			}	
+		counter++
+		}
+	printf("\nNumber of allocation sequences satisfying constraints: %f\n", nValid)
+	}		
+	
+
+
+	if(remain > 0) {
+		for (i = 1; i <= nObs; i++){
+			if(allocSeq[i] == misValue) allocSeq[i] = .
+		}
+	}
+	
+    /* shuffle arms to ensure randomness in case only half of all permutations have been invetigated */
+	rnd = jumble(1::arms)
+	
+	for(i = 1; i <= nObs; i++){
+		if(mod(allocSeq[i], 1) == 0){
+			allocSeq[i] = rnd[allocSeq[i]]
+		} else {
+			allocSeq[i] = .
+		}
+	}
+
+	if(nValid > 0){
+		st_store(., "_arm", touse, allocSeq)
+		printf("Randomly selected sequence:")
+		allocSeq = colshape(allocSeq, nObs)
+		cnames = J(nObs, 2, " ")
+		rnames = J(1, 2, " ")
+		_matrix_list(allocSeq, rnames, cnames)
+	}
+	
+	/* diagnostics */  
+	for(i=1; i<=nObs; i++){
+			diagMat[i,i] = .
+	}
+	
+	symDiag = makesymmetric(diagMat)
+	
+	if(nValid > 0){	
+		printf("\nDiagnostics:\n")
+		round(symDiag / nValid * 100)
+		if(strmatch(asCount, "")){
+			symDiag = round(symDiag / nValid * 100, .1)
+		}
+	}	
+	
+	/* return scalar and diagnostic matrix to stata */
+	st_numscalar("validseq", nValid)
+	st_matrix("diagnostic", symDiag)
+	st_matrix("allocation", allocSeq')
 }
 end
-
