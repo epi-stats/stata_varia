@@ -16,7 +16,7 @@
 
 {p 8 17 2}
 {cmdab:restrand} {varlist} 
-{cmd:,} {it:constraints(numlist)}
+{cmd:,} {it:constrain(numlist)}
 [{it:options}]
 
 {synoptset 20 tabbed}{...}
@@ -136,7 +136,7 @@ The source code of the underlying Mata function is in the ado file or can be see
 {phang2}{cmd: forvalues i = 1/3 {c -(} }{p_end}
 {phang3}{cmd: 	restrand bp_before if agegrp == `i' & sex==0, constr(1) arms(2) seed(1103)}{p_end}
 {phang2}{cmd: {c )-} }{p_end}
-{phang2}{cmd: mean bp_before, over(agegrp _arm){p_end}
+{phang2}{cmd: mean bp_before, over(agegrp _arm)}{p_end}
 {hline}
 
 
