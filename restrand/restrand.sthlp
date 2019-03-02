@@ -102,22 +102,22 @@ The source code of the underlying Mata function is in the ado file or can be see
 {pstd}Restricted randomisation with 2 variables{p_end}
 {phang2}{cmd: sysuse bpwide, replace}{p_end}
 {phang2}{cmd: restrand sex bp_before in 50/70, constr(0.05 1) arms(2) seed(1103)}{p_end}
-{phang2}{it:({stata "gr_example bpwide: restrand sex bp_before in 50/70, constr(0.05 1) arms(2) seed(1103)": click to run})}
+{phang2}{it:({stata "gr_example bpwide: restrand sex bp_before in 50/70, constr(0.05 1) arms(2) seed(1103)": click to run})}{p_end}
 {hline}
 {pstd}Show details (note the selected dsequence is actually from loop 43){p_end}
 {phang2}{cmd: sysuse bpwide, replace}{p_end}
 {phang2}{cmd: restrand bp_before in 1/10, constr(1) arms(2) seed(1103) verb(1)}{p_end}
-{phang2}{it:({stata "gr_example bpwide: restrand  bp_before in 1/10, constr(1) arms(2) seed(1103) verb(1)": click to run})}
+{phang2}{it:({stata "gr_example bpwide: restrand  bp_before in 1/10, constr(1) arms(2) seed(1103) verb(1)": click to run})}{p_end}
 {hline}
 {pstd}Example with random samples instead of permutations{p_end}
 {phang2}{cmd: sysuse bpwide, replace}{p_end}
 {phang2}{cmd: restrand sex bp_before if agegrp < 3, constr(0.1 5) arms(6) seed(1130) sample(400000)}{p_end}
-{phang2}{it:({stata "gr_example bpwide: restrand sex bp_before if agegrp < 3, constr(0.1 5) arms(6) seed(1130) sample(400000)": click to run})}
+{phang2}{it:({stata "gr_example bpwide: restrand sex bp_before if agegrp < 3, constr(0.1 5) arms(6) seed(1130) sample(400000)": click to run})}{p_end}
 {hline}
 {pstd}Example with to tight constraints. Units are not independent. Some units are always or (almost) never in the same arm{p_end}
 {phang2}{cmd: sysuse bpwide, replace}{p_end}
 {phang2}{cmd: restrand sex bp_before if  bp_before < 144 | bp_before > 183, constr(0 3) arms(2) seed(1103){p_end} 
-{phang2}{it:({stata "gr_example bpwide: restrand sex bp_before if bp_before < 144 | bp_before > 183, constr(0 3) arms(2) seed(1103)": click to run})}
+{phang2}{it:({stata "gr_example bpwide: restrand sex bp_before if bp_before < 144 | bp_before > 183, constr(0 3) arms(2) seed(1103)": click to run})}{p_end}
 {hline}
 {pstd}Example with age-group as strata but the categories are coded 1 to 3 (and 1+3 = 2+2){p_end}
 {phang2}{cmd: sysuse bpwide, replace}{p_end} 
