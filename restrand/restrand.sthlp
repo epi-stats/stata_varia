@@ -114,29 +114,29 @@ The source code of the underlying Mata function is in the ado file or can be see
 {phang2}{cmd: restrand sex bp_before if agegrp < 3, constr(0.1 5) arms(6) seed(1130) sample(400000)}{p_end}
 {phang2}{it:({stata "gr_example bpwide: restrand sex bp_before if agegrp < 3, constr(0.1 5) arms(6) seed(1130) sample(400000)": click to run})}{p_end}
 {hline}
-{pstd}Example with to tight constraints. Units are not independent. Some units are always or (almost) never in the same arm{p_end}
+{pstd}Example with too tight constraints. Units are not independent. Some units are always or (almost) never in the same arm{p_end}
 {phang2}{cmd: sysuse bpwide, replace}{p_end}
-{phang2}{cmd: restrand sex bp_before if  bp_before < 144 | bp_before > 183, constr(0 3) arms(2) seed(1103){p_end} 
+{phang2}{cmd: restrand sex bp_before if  bp_before < 144 | bp_before > 183, constr(0 3) arms(2) seed(1103)}{p_end} 
 {phang2}{it:({stata "gr_example bpwide: restrand sex bp_before if bp_before < 144 | bp_before > 183, constr(0 3) arms(2) seed(1103)": click to run})}{p_end}
 {hline}
-{pstd}Example with age-group as strata but the categories are coded 1 to 3 (and 1+3 = 2+2){p_end}
+{pstd}Example using incorrectly age-group as strata but the categories are coded 1 to 3 (1+3 = 2+2){p_end}
 {phang2}{cmd: sysuse bpwide, replace}{p_end} 
 {phang2}{cmd: restrand agegrp bp_before if sex==0, constr(0 1) arms(2) sample(10000) seed(1103)}{p_end} 
 {phang2}{cmd: tab agegrp _arm, nolab}{p_end}
 {hline}
 {pstd}Example with age-group as strata with dummy coded categories (constraints atisfied over all strata){p_end}
-{phang3}{cmd: sysuse bpwide, replace}{p_end} 
-{phang3}{cmd: tabulate agegrp, generate(age)}{p_end}
-{phang3}{cmd: restrand age1 age2 age3 bp_before if sex==0, constr(0 0 0 1) arms(2) seed(1103) sample(10000)}{p_end}
-{phang3}{cmd: tab agegrp _arm, nolab}{p_end}
-{phang3}{cmd: mean bp_before, over(agegrp _arm)}{p_end}
+{phang2}{cmd: sysuse bpwide, replace}{p_end} 
+{phang2}{cmd: tabulate agegrp, generate(age)}{p_end}
+{phang2}{cmd: restrand age1 age2 age3 bp_before if sex==0, constr(0 0 0 1) arms(2) seed(1103) sample(10000)}{p_end}
+{phang2}{cmd: tab agegrp _arm, nolab}{p_end}
+{phang2}{cmd: mean bp_before, over(agegrp _arm)}{p_end}
 {hline}
 {pstd}Example with age-group as strata with in/if (much faster and constraints are satisfied in eacxh stratum){p_end}
-{phang3}{cmd: sysuse bpwide, replace}{p_end} 
-{phang3}{cmd: forvalues i = 1/3}{c -(}{p_end}
-{phang4}{cmd: 	restrand bp_before if agegrp == `i' & sex==0, constr(1) arms(2) seed(1103)
-{phang3}{cmd: {c -)}{p_end}
-{phang3}{cmd: mean bp_before, over(agegrp _arm){p_end}
+{phang2}{cmd: sysuse bpwide, replace}{p_end} 
+{phang2}{cmd: forvalues i = 1/3 {c -(} }{p_end}
+{phang3}{cmd: 	restrand bp_before if agegrp == `i' & sex==0, constr(1) arms(2) seed(1103)}{p_end}
+{phang2}{cmd: {c )-} }{p_end}
+{phang2}{cmd: mean bp_before, over(agegrp _arm){p_end}
 {hline}
 
 
