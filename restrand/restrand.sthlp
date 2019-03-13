@@ -1,5 +1,5 @@
 {smcl}
-{* *! 1.0.7 JH 2 March 2019}{...}
+{* *! 1.0.8 13 March 2019}{...}
 {vieweralsosee " [FN] Random-number functions" "help random number functions"}{...}
 {viewerjumpto "Syntax" "restrand##syntax"}{...}
 {viewerjumpto "Description" "restrand##description"}{...}
@@ -32,6 +32,9 @@
 {synopt:{opt v:erbose(#)}} show details{p_end}
 
 {synoptline}
+{p2colreset}{...}
+{p 4 6 2}
+{cmd:by} is allowed; see {manhelp by D}.{p_end}
 
 {p2colreset}{...}
 {marker description}{...}
@@ -54,8 +57,12 @@ i.e. the maximum allowed mean difference between the tretment arms. The number o
 
 {phang}
 {opt seed(#)} the seed to initiate the pseudo random number generator. 
-If 0 (the default) the current date  and time will be used to generate a random seed. 
-The same seed will generate the same randomisation list.
+If 0 (the default) the current time will be used to generate a random seed. 
+If a positive integer number is specified the seed will be set to this number. 
+In both cases the current seed will be changed. In rare scenarios one might wich not to alter the current seed. 
+For this purpose a nagetive integer number can be specified. 
+This is usually not recommended because it is more difficult to reproduce the randomisation procedure.
+If a negative number is specified (without by:) the current state of the random-number generator will be returned in the macro r(cseed).
 
 {phang}
 {opt n(#)} the number of units to be randomized to each arm. 
@@ -77,13 +84,13 @@ it might be better to use only a random selection (the algorithm is fast and req
 
 {pstd}
 This procedure performs a pseudo-random selection from a list of acceptable allocations in a way that ensures balance on relevant covariates. 
-The current random seed will be modified independent if option {cmd:seed} is specified or not.
+Usually, the current random seed will be modified (independent if option {cmd:seed} is specified or not, see option seed for details).
 A new variable _arm will be generated. If a variable with this name already exists the values will be over-written.
-Stratification can be implemented if the restriction for a categorical variable is set to 0 
+Stratification can be implemented via by: or bysort:. The constraints will be required to be fullfilled in each stratum.
+If the restrictions should by valid over all strata stratification can be alternatively implemented by setting
+the constraints of a categorical variable is to 0 
 (note: dummy variables might be required in case of more than 2 categories, see examples for details).
 However, this approch might be inefficient because many allocation sequences are per definition invalid.
-Usually, it is better to perform the command seperately for each stratum (via in or if). 
-The difference between these 2 option is that in the latter case the constraints are fulfilled within each stratum. 
 Missing values are not allowed in any of the variables specified in varlist.
 The diagnostic matrix indicates how frequently (percent) a pair of units are allocated to the same treatment group.
 If a pairs of clusters appears always, often, rarely or never in the same arm,
@@ -93,6 +100,7 @@ The command (or more precisely the underlying Mata function) will try to generat
 permutation pattern in a way that only half of all combinations needs to be assessed, 
 e.g. the allocation sequence (1, 1, 1, 2, 2, 2) is symmetric to (2, 2, 2, 1, 1, 1). 
 To ensure randomness the trial arms will be shuffled at the end.
+If restrand is called with option by: or bysort: only the results from the last by-call will be returned.
 The source code of the underlying Mata function is in the ado file or can be seen at https://github.com/epi-stats/stata_varia/
 
 
@@ -131,12 +139,10 @@ The source code of the underlying Mata function is in the ado file or can be see
 {phang2}{cmd: tab agegrp _arm, nolab}{p_end}
 {phang2}{cmd: mean bp_before, over(agegrp _arm)}{p_end}
 {hline}
-{pstd}Example with age-group as strata with in/if (much faster and constraints are satisfied in eacxh stratum){p_end}
+{pstd}Example with age-group as strata with bysort: (much faster and constraints are satisfied in eacxh stratum){p_end}
 {phang2}{cmd: sysuse bpwide, replace}{p_end} 
-{phang2}{cmd: forvalues i = 1/3 {c -(} }{p_end}
-{phang3}{cmd: 	restrand bp_before if agegrp == `i' & sex==0, constr(1) arms(2) seed(1103)}{p_end}
-{phang2}{cmd: {c )-} }{p_end}
-{phang2}{cmd: mean bp_before, over(agegrp _arm)}{p_end}
+{phang2}{cmd: bysort sex agegrp: restrand bp_before, constr(1) arms(2) seed(1103)}{p_end}
+{phang2}{it:({stata "gr_example bpwide: bysort sex agegrp: restrand bp_before, constr(1) arms(2) seed(1103)": click to run})}{p_end}
 {hline}
 
 
@@ -154,7 +160,8 @@ The source code of the underlying Mata function is in the ado file or can be see
 {p2col 5 20 24 2: Matrices}{p_end}
 {synopt:{cmd:r(alloc)}} The selected allocation sequence{p_end}
 {synopt:{cmd:r(diag)}} Matrix indicating percentages how often pairs were allocated to the same treatment group{p_end}
-
+{p2col 5 20 24 2: Macros}{p_end}
+{synopt:{cmd:r(cseed)}} The current state of the random-number generator if a negative value for seed is specified (without by:) {p_end}
 
 {p2colreset}{...}
 
