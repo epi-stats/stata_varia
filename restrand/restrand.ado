@@ -1,5 +1,5 @@
-*! 1.0.7  2 March 2019
-program define restrand, rclass
+*! 1.0.8  13 March 2019
+program define restrand, rclass byable(recall)
   version 13
   syntax varlist(num) [if] [in], Constrain(numlist) [Arms(int 2) SEed(int 0) n(int 0) SAmple(int 0) Count Verbose(int 0)]
   foreach v of varlist `varlist' {
@@ -12,27 +12,40 @@ program define restrand, rclass
      di as error "Number of variables != number of constrain"
 	         exit 459
   }
-  if (`seed' == 0){
-     local timeseed = mod(Clock("$S_DATE $S_TIME" , "DMYhms")/1000, 10000000)
-	 set seed `timeseed'
-	 local timeseed = round(runiform() * 10000000)
-	 local seed = `timeseed'
-  }
-   if (`n' != 0 & _N < `arms' * `n'){
+  if (`n' != 0 & _N < `arms' * `n'){
      di as error "Product of arms and obs per arm is < number of obs"
 	         exit 459
-  } 
-  set seed `seed'
+  }
+  
+  /* change the seed (only in the first recall if used with by:) */ 
+  if _byindex() == 1 {
+    if (`seed' == 0){
+		local timeseed = mod(Clock("$S_DATE $S_TIME" , "DMYhms")/1000, 10000000)
+		set seed `timeseed'
+		local timeseed = round(runiform() * 10000000)
+		local seed = `timeseed'
+	}
+	if (`seed' >= 0) set seed `seed'
+	if (`seed' < 0) local cseed = c(seed)
+  }
+
   marksample touse
   qui: cap gen _arm = .
   qui: sum _arm 
   if (r(N) > 0) di as smcl "Note: variable _arm exists and has non-missing values"  
   di as smcl as txt "{p}"
-  di as smcl "Seed set to: `seed'"  
+  if (`seed' >= 0) di as smcl "Seed set to: `seed'"  
+  if (`seed' < 0) di as smcl "Seed remained unchanged"  
   di as smcl "{p_end}"
+  
   mata: checkpermute("`varlist'", "`constrain'", `arms', `n', "`count'", `verbose', `sample', "`touse'")
+  
   if (validseq > 0) mean `varlist' if `touse' , over(_arm) noheader
   else  di as error "No valid Sequence identified - relax constraints"
+  if (`seed' < 0){
+	local seed "."
+	return local cseed "`cseed'"
+  }	
   return scalar seed = `seed' 
   return scalar Nvalidseq = validseq 
   return matrix diag diagnostic 
