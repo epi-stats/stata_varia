@@ -15,7 +15,7 @@
 {title:Syntax}
 
 {p 8 17 2}
-{cmdab:restrand} {varlist} 
+{cmdab:restrand} {varlist} {ifin}
 {cmd:,} {it:constrain(numlist)}
 [{it:options}]
 
