@@ -47,7 +47,7 @@ Confidence intervals can be constructed using {cmd:bootstrap}.
 {opt treat(#)} The value of the variable used in option arm which specifies the group receiving the new treatment.
 
 {phang}
-{opt treat(#)} The value of the variable used in option arm which specifies the comparator treatment.
+{opt comp(#)} The value of the variable used in option arm which specifies the comparator treatment.
 
 {marker remarks}{...}
 {title:Remarks}
