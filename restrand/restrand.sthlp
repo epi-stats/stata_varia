@@ -77,7 +77,8 @@ it might be better to use only a random selection (the algorithm is fast and req
 {opt count} If specified the diagnostic matrix will show counts instead of percentages.
 
 {phang}
-{opt verbose(#)} Show details for ech Nth sequence analysed. 0 (the default) means do not show details at all.
+{opt verbose(#)} Show details for ech Nth sequence analysed. 0 (the default) means do not show details at all. 
+Negative values will supress the diagnostic matrix from being displayed. 
 
 {marker remarks}{...}
 {title:Remarks}
