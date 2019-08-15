@@ -1,4 +1,4 @@
-*! 1.0.8  13 March 2019
+*! 1.0.9  15 August 2019
 program define restrand, rclass byable(recall)
   version 13
   syntax varlist(num) [if] [in], Constrain(numlist) [Arms(int 2) SEed(int 0) n(int 0) SAmple(int 0) Count Verbose(int 0)]
@@ -192,7 +192,7 @@ void function checkpermute(string scalar varlist,
 				if(mod(counter, 10000)==0) {
 					printf(". ")
 					displayflush()
-					if(mod(counter, 100000)==0){
+					if(mod(counter, 200000)==0){
 						adv = strofreal(100 * counter/nSample, "%12.0f")  
 						display(adv + "%; valid seq: " + strofreal(nValid))
 					}
@@ -252,7 +252,7 @@ void function checkpermute(string scalar varlist,
 				if(mod(counter, 10000)==0) {
 					printf(". ")
 					displayflush()
-					if(mod(counter, 100000)==0) {
+					if(mod(counter, 200000)==0) {
 						adv = strofreal(counter/stopSeq*100, "%12.0f")  
 						display(adv + "%; Sequences satifying restrictions: " + strofreal(nValid))
 					}
@@ -298,7 +298,7 @@ void function checkpermute(string scalar varlist,
 	
 	symDiag = makesymmetric(diagMat)
 	
-	if(nValid > 0){	
+	if(nValid > 0 & verbose >=0){	
 		printf("\nDiagnostics:\n")
 		round(symDiag / nValid * 100)
 		if(strmatch(asCount, "")){
