@@ -45,14 +45,14 @@ program define restrand, rclass byable(recall)
 	if (`seed' >= 0) di as smcl "Seed set to: `seed'"  
 	if (`seed' < 0) di as smcl "Seed remained unchanged"  
 	di as smcl "{p_end}"
+        return scalar seed = `seed' 	
+	return local cseed "`cseed'"
   }
 
   mata: checkpermute("`varlist'", "`constrain'", `arms', `n', "`count'", `verbose', `sample', "`touse'")
   
   if (validseq > 0) mean `varlist' if `touse' , over(_arm) noheader
   else  di as error "No valid Sequence identified - relax constraints"
-  return scalar seed = `seed' 
-  return local cseed "`cseed'"
   return scalar Nvalidseq = validseq 
   return matrix diag diagnostic 
   return matrix alloc allocation     
