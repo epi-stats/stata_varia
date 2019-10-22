@@ -1,4 +1,4 @@
-*! 1.0.9  15 August 2019
+*! 1.0.10  22 Oct 2019
 program define restrand, rclass byable(recall)
   version 13
   syntax varlist(num) [if] [in], Constrain(numlist) [Arms(int 2) SEed(int 0) n(int 0) SAmple(int 0) Count Verbose(int 0)]
