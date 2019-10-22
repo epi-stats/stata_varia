@@ -17,36 +17,42 @@ program define restrand, rclass byable(recall)
 	         exit 459
   }
   
+  marksample touse
+
   /* change the seed (only in the first recall if used with by:) */ 
   if _byindex() == 1 {
-    if (`seed' == 0){
+	if _by() {
+		local cmdline "by `_byvars':"   /* store by: part of command line */
+	}
+	local cmdline `cmdline' restrand `0'    /* store command line */
+    	if (`seed' == 0){
 		local timeseed = mod(Clock("$S_DATE $S_TIME" , "DMYhms")/1000, 10000000)
 		set seed `timeseed'
 		local timeseed = round(runiform() * 10000000)
 		local seed = `timeseed'
+		local cmdline `cmdline' seed(`seed')   /* store seed in command line if seed argument is 0*/
 	}
 	if (`seed' >= 0) set seed `seed'
 	if (`seed' < 0) local cseed = c(seed)
+	qui: cap gen _arm = .
+	qui: sum _arm 
+	if (r(N) > 0) di as smcl "Note: variable _arm exists and has non-missing values"  
+	/* assign command line to variable label and note*/
+	qui: label variable _arm "`cmdline'"
+	qui: notes drop _arm 
+	notes _arm : `cmdline' @ TS
+	di as smcl as txt "{p}"
+	if (`seed' >= 0) di as smcl "Seed set to: `seed'"  
+	if (`seed' < 0) di as smcl "Seed remained unchanged"  
+	di as smcl "{p_end}"
   }
 
-  marksample touse
-  qui: cap gen _arm = .
-  qui: sum _arm 
-  if (r(N) > 0) di as smcl "Note: variable _arm exists and has non-missing values"  
-  di as smcl as txt "{p}"
-  if (`seed' >= 0) di as smcl "Seed set to: `seed'"  
-  if (`seed' < 0) di as smcl "Seed remained unchanged"  
-  di as smcl "{p_end}"
-  
   mata: checkpermute("`varlist'", "`constrain'", `arms', `n', "`count'", `verbose', `sample', "`touse'")
   
   if (validseq > 0) mean `varlist' if `touse' , over(_arm) noheader
   else  di as error "No valid Sequence identified - relax constraints"
-  if (`seed' < 0){
-	local seed "."
-	return local cseed "`cseed'"
-  }	
   return scalar seed = `seed' 
+  return local cseed "`cseed'"
   return scalar Nvalidseq = validseq 
   return matrix diag diagnostic 
   return matrix alloc allocation     
