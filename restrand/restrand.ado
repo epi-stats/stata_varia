@@ -1,24 +1,28 @@
-*! 1.0.10  22 Oct 2019
+*! 1.0.11  24 Oct 2019
 program define restrand, rclass byable(recall)
   version 13
   syntax varlist(num) [if] [in], Constrain(numlist) [Arms(int 2) SEed(int 0) n(int 0) SAmple(int 0) Count Verbose(int 0)]
-  foreach v of varlist `varlist' {
-     qui count if missing(`v')
-     if r(N) > 0 error 416
-  }
+  
   local nvars: word count `varlist'
   local nres: word count `constrain'
   if (`nvars' != `nres'){
      di as error "Number of variables != number of constrain"
 	         exit 459
   }
-  if (`n' != 0 & _N < `arms' * `n'){
+
+  marksample touse, novarlist 
+
+  foreach v of varlist `varlist' {
+     qui count if missing(`v') & `touse'
+     if r(N) > 0 error 416
+  }
+  
+  qui count if `touse'
+  if (`n' != 0 & r(N) < `arms' * `n'){
      di as error "Product of arms and obs per arm is < number of obs"
 	         exit 459
   }
   
-  marksample touse
-
   /* change the seed (only in the first recall if used with by:) */ 
   if _byindex() == 1 {
 	if _by() {
@@ -62,12 +66,12 @@ version 13
 mata:
 void function checkpermute(string scalar varlist, 
                            string matrix constraints,
-						   real scalar arms,
-						   real scalar n,
-						   string matrix asCount,
-						   real scalar verbose,
-						   real scalar nSample,
-						   string scalar touse) 
+			   real scalar arms,
+			   real scalar n,
+			   string matrix asCount,
+			   real scalar verbose,
+			   real scalar nSample,
+			   string scalar touse) 
 {
 	transmorphic info /* cvpermutesetup */ 
 	real matrix rd, diagMat, meanMat, symDiag /* rd = data diagMat = diagnostics */ 
