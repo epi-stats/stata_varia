@@ -121,7 +121,7 @@ void function checkpermute(string scalar varlist,
 			if(allo[i,1] > arms) allo[i,1] = misValue
 		}
 	}
-	if(remain > 0 & mod(arms,2) == 1) {	
+	if((remain > 0 & mod(arms,2) == 1) | mod(nPerm, 2) == 1) {	
 		printf("{txt}Note: can't identify duplicate sequences (odd # arms & not all randomized)\n")
 		stopSeq = nPerm	
 	} else {
