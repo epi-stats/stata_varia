@@ -1,4 +1,4 @@
-*! version 1.03 15Mar2018
+*! version 1.10 12Feb2020
 
 program define randomlist
   version 13
