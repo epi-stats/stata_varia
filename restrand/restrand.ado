@@ -27,7 +27,7 @@ program define restrand, rclass byable(recall)
 
   marksample touse, novarlist 
 
-  foreach v of varlist `varlist' {
+  foreach v in `varlist' {
      qui count if missing(`v') & `touse'
      if r(N) > 0 error 416
   }
