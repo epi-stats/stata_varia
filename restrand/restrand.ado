@@ -223,9 +223,9 @@ void function checkpermute(string scalar varlist,
 						displ = displ + strofreal(round(difMean[i], .01)) + " "
 					}
 					if(min(valid) >= 0){
-						displ = displ + "VALID\n" 
+						displ = displ + "balance\n" 
 					} else {
-						displ = displ + "invalid\n" 
+						displ = displ + "imbalance\n" 
 					}
 
 					printf(displ)
@@ -283,9 +283,9 @@ void function checkpermute(string scalar varlist,
 						displ = displ + strofreal(round(difMean[i], .01)) + " "
 					}
 					if(min(valid) >= 0){
-						displ = displ + "VALID\n" 
+						displ = displ + "balance\n" 
 					} else {
-						displ = displ + "invalid\n" 
+						displ = displ + "imbalance\n" 
 					}
 
 					printf(displ)
