@@ -1,8 +1,23 @@
-*! 1.12  12 Feb 2020
+*! 1.13  08 Mar 2020
 program define restrand, rclass byable(recall)
   version 13
-  syntax varlist(num) [if] [in], Constrain(numlist) [Arms(int 2) SEed(int 0) n(int 0) SAmple(int 0) Count Verbose(int 0)]
+  syntax varlist(num fv) [if] [in], Constrain(numlist >=0) [Arms(int 2) SEed(int 0) n(int 0) SAmple(int 0) Count Verbose(int 0)]
   
+  if (`arms' < 2){
+     di as error "Number of arms < 2"
+	         exit 459
+  }  
+
+  if (`n' < 0){
+     di as error "n should be >= 0"
+     exit 411
+  }  
+
+  if "`s(fvops)'" == "true" {
+       fvexpand `varlist'  
+       local varlist `r(varlist)'
+  }
+
   local nvars: word count `varlist'
   local nres: word count `constrain'
   if (`nvars' != `nres'){
@@ -18,6 +33,9 @@ program define restrand, rclass byable(recall)
   }
   
   qui count if `touse'
+  if(r(N) < 2){
+     exit 2001
+  }
   if (`n' != 0 & r(N) < `arms' * `n'){
      di as error "Product of arms and obs per arm is < number of obs"
 	         exit 459
@@ -55,8 +73,23 @@ program define restrand, rclass byable(recall)
 
   mata: checkpermute("`varlist'", "`constrain'", `arms', `n', "`count'", `verbose', `sample', "`touse'")
   
-  if (validseq > 0) mean `varlist' if `touse' , over(_arm) noheader
-  else  di as error "No valid Sequence identified - relax constraints"
+  /* print means per arm */
+  if (validseq > 0 & `verbose' >= 0) {
+      qui: levelsof _arm, local(armlevels) 
+      di %30s _newline " arm # "  _continue  
+      foreach l of local armlevels{
+             di  %9.0g = `l' _continue
+      }   
+      foreach v in `varlist' {
+         local vtxt = substr("`v'", 1, 24)
+         di %30s _newline  "mean `vtxt' "   _continue  
+         foreach l of local armlevels {
+             sum `v' if _arm == `l' & `touse', meanonly
+             di %9.0g = r(mean) _continue  
+         }
+      }
+  }
+  if (validseq == 0)  di as error "No valid Sequence identified - relax constraints"
   return scalar Nvalidseq = validseq 
   return matrix diag diagnostic 
   return matrix alloc allocation     
@@ -122,7 +155,6 @@ void function checkpermute(string scalar varlist,
 		}
 	}
 	if((remain > 0 & mod(arms,2) == 1) | mod(nPerm, 2) == 1) {	
-		printf("{txt}Note: can't identify duplicate sequences (odd # arms & not all randomized)\n")
 		stopSeq = nPerm	
 	} else {
 		printf("{txt}Note: half of potential allocation sequences are dropped because of symmetry.\n")
@@ -178,7 +210,7 @@ void function checkpermute(string scalar varlist,
 			}	
 			if(verbose > 0) {
 				if(mod(counter, verbose)==0) {
-					displ = strofreal(counter) + " Seq: "
+					displ = " Seq " + strofreal(counter) + ": "
 					for (i = 1; i <= nObs; i++) {
 						if(p[i,1] == misValue) p[i,1] = .
 						displ = displ + strofreal(p[i,1]) + " "
@@ -196,7 +228,7 @@ void function checkpermute(string scalar varlist,
 						displ = displ + "invalid\n" 
 					}
 
-					printf("Loop: " + displ)
+					printf(displ)
 				}
 			} else {
 				if(mod(counter, 10000)==0) {
@@ -238,7 +270,7 @@ void function checkpermute(string scalar varlist,
 			}
 			if(verbose > 0){
 				if(mod(counter, verbose)==0) {
-					displ = strofreal(counter) + " Seq: "
+					displ = " Seq " + strofreal(counter) + ": "
 					for (i = 1; i <= nObs; i++) {
 						if(p[i,1] == misValue) p[i,1] = .
 						displ = displ + strofreal(p[i,1]) + " "
@@ -256,7 +288,7 @@ void function checkpermute(string scalar varlist,
 						displ = displ + "invalid\n" 
 					}
 
-					printf("Loop: " + displ)
+					printf(displ)
 				}
 			} else {
 				if(mod(counter, 10000)==0) {
@@ -308,9 +340,11 @@ void function checkpermute(string scalar varlist,
 	
 	symDiag = makesymmetric(diagMat)
 	
-	if(nValid > 0 & verbose >=0){	
-		printf("\nDiagnostics:\n")
-		round(symDiag / nValid * 100)
+	if(nValid > 0 ){
+	        if(verbose >= 0){
+		   printf("\nDiagnostics:\n")
+		   round(symDiag / nValid * 100)
+                }
 		if(strmatch(asCount, "")){
 			symDiag = round(symDiag / nValid * 100, .1)
 		}
