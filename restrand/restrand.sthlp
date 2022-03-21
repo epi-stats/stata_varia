@@ -89,14 +89,14 @@ Usually, the current random seed will be modified (independent if option {cmd:se
 A new variable _arm will be generated. If a variable with this name already exists the values will be over-written.
 Stratification can be implemented via by: or bysort:. The constraints will be required to be fullfilled in each stratum.
 If the restrictions should by valid over all strata stratification can be alternatively implemented by setting
-the constraints of a categorical variable is to 0 
+the constraints of a categorical variable to 0 
 (note: dummy variables might be required in case of more than 2 categories, see examples for details).
 However, this approch might be inefficient because many allocation sequences are per definition invalid.
 Missing values are not allowed in any of the variables specified in varlist.
 The diagnostic matrix indicates how frequently (percent) a pair of units are allocated to the same treatment group.
 If a pairs of clusters appears always, often, rarely or never in the same arm,
 the procedure should be repeated with more relaxed constraints.  
-There is no general rule but rarely is sometimes defined as half as often as one would expect by chance and often as above 75%. 
+There is no general rule but it is sometimes defined as less than 50% or more than 75% as one would expect by chance. 
 The command (or more precisely the underlying Mata function) will try to generate a symmetric 
 permutation pattern in a way that only half of all combinations needs to be assessed, 
 e.g. the allocation sequence (1, 1, 1, 2, 2, 2) is symmetric to (2, 2, 2, 1, 1, 1). 
@@ -113,7 +113,7 @@ The source code of the underlying Mata function is in the ado file or can be see
 {phang2}{cmd: restrand sex bp_before in 50/70, constr(0.05 1) arms(2) seed(1103)}{p_end}
 {phang2}{it:({stata "gr_example bpwide: restrand sex bp_before in 50/70, constr(0.05 1) arms(2) seed(1103)": click to run})}{p_end}
 {hline}
-{pstd}Show details (note the selected dsequence is actually from loop 43){p_end}
+{pstd}Show details (note the selected sequence is actually from loop 43){p_end}
 {phang2}{cmd: sysuse bpwide, replace}{p_end}
 {phang2}{cmd: restrand bp_before in 1/10, constr(1) arms(2) seed(1103) verb(1)}{p_end}
 {phang2}{it:({stata "gr_example bpwide: restrand  bp_before in 1/10, constr(1) arms(2) seed(1103) verb(1)": click to run})}{p_end}
@@ -133,14 +133,14 @@ The source code of the underlying Mata function is in the ado file or can be see
 {phang2}{cmd: restrand agegrp bp_before if sex==0, constr(0 1) arms(2) sample(10000) seed(1103)}{p_end} 
 {phang2}{cmd: tab agegrp _arm, nolab}{p_end}
 {hline}
-{pstd}Example with age-group as strata with dummy coded categories (constraints atisfied over all strata){p_end}
+{pstd}Example with age-group as strata with dummy coded categories (constraints satisfied over all strata){p_end}
 {phang2}{cmd: sysuse bpwide, replace}{p_end} 
 {phang2}{cmd: tabulate agegrp, generate(age)}{p_end}
 {phang2}{cmd: restrand age1 age2 age3 bp_before if sex==0, constr(0 0 0 1) arms(2) seed(1103) sample(10000)}{p_end}
 {phang2}{cmd: tab agegrp _arm, nolab}{p_end}
 {phang2}{cmd: mean bp_before, over(agegrp _arm)}{p_end}
 {hline}
-{pstd}Example with age-group as strata with bysort: (much faster and constraints are satisfied in eacxh stratum){p_end}
+{pstd}Example with age-group as strata with bysort: (much faster, constraints are satisfied in each stratum){p_end}
 {phang2}{cmd: sysuse bpwide, replace}{p_end} 
 {phang2}{cmd: bysort sex agegrp: restrand bp_before, constr(1) arms(2) seed(1103)}{p_end}
 {phang2}{it:({stata "gr_example bpwide: bysort sex agegrp: restrand bp_before, constr(1) arms(2) seed(1103)": click to run})}{p_end}
