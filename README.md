@@ -7,4 +7,4 @@ Package err calculates egg reduction rates using bootstrap resampling
 
 Installation: open Stata and execute the following command:
 
-net from https://raw.github.com/epi-stats/stata_varia/master/
+net from "https://raw.githubusercontent.com/epi-stats/stata_varia/master/"
