@@ -1,0 +1,7 @@
+d Currently the package has only 1 command: logitforest
+d logitforest generates a forest plot after a logistic regression.
+d the program calls internally meta forestplot
+d Jan Hattendorf, SwissTPH
+d
+f fancyplots/logitforest.ado
+f fancyplots/logitforest.sthlp
