@@ -1,4 +1,4 @@
-v 2
+v 3
 * d lines display description text the first dline is the title, and the remaining ones are text blank dlines display a blank line
 d Stata commands for biostatistic and epidemiology
 d
@@ -9,3 +9,7 @@ d
 d Package err has 2 commands to calculate egg reduction rates (eggrr & errdif)
 d type -net install err- or use the link below
 p err.pkg 
+d
+d Package fancyplots has currently only 1 commands generate a forestplot after logistic regression
+d type -net install fancyplots- or use the link below
+p fancyplots.pkg  
