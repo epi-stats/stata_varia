@@ -1,7 +1,7 @@
 *! version 1.0 - 01Apr2023
 program define logitforest
    syntax [varlist(default=none ts fv)] [, stored(str) DROPRef Omit(numlist) LABel(str) Foptions(str) COLVarti(str) COLORti(str) HEADer(str) OWNcol REFStr(str)]
-   verion 15
+   version 15
    if "`stored'" == "" & "`varlist'" == "" {
      di as error "either varlist or option stored has to be defined"
 	         exit 100
